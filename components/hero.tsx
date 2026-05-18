@@ -1,0 +1,73 @@
+'use client'
+
+import Link from 'next/link'
+import { PlayCircle } from 'lucide-react'
+
+export function Hero() {
+  return (
+    <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-20 md:py-32 lg:py-40">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="grid gap-12 md:grid-cols-2 md:gap-8 items-center">
+          {/* Left side - Video placeholder */}
+          <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-2xl">
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-purple-500/20 flex items-center justify-center">
+              <div className="text-center">
+                <div className="relative inline-block">
+                  <PlayCircle className="w-24 h-24 text-white drop-shadow-lg" />
+                </div>
+              </div>
+            </div>
+            <img 
+              src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=800&h=600&fit=crop" 
+              alt="Video editing course" 
+              className="w-full h-full object-cover opacity-40"
+            />
+          </div>
+
+          {/* Right side - Content */}
+          <div className="space-y-6">
+            <div className="space-y-3">
+              <p className="text-orange-400 font-semibold text-sm md:text-base">Professional Video Editing</p>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
+                Master the Art of Video Editing
+              </h1>
+            </div>
+
+            <p className="text-lg text-slate-300 leading-relaxed">
+              Learn professional video editing techniques, master industry-standard tools, and transform your creative vision into stunning visual content.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+              <Link
+                href="/checkout"
+                className="inline-flex items-center justify-center px-8 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors"
+              >
+                Enroll Now
+              </Link>
+              <button className="inline-flex items-center justify-center px-8 py-3 border-2 border-slate-500 text-white font-semibold rounded-lg hover:border-slate-400 transition-colors">
+                <PlayCircle className="w-5 h-5 mr-2" />
+                Watch Demo
+              </button>
+            </div>
+
+            {/* Stats */}
+            <div className="grid grid-cols-3 gap-4 pt-8 border-t border-slate-700">
+              <div>
+                <p className="text-2xl font-bold text-white">500+</p>
+                <p className="text-sm text-slate-400">Students</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-white">40hrs</p>
+                <p className="text-sm text-slate-400">Content</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-white">100%</p>
+                <p className="text-sm text-slate-400">Lifetime</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
