@@ -6,7 +6,7 @@ import { FAQ } from '@/components/faq'
 import { ScrollUiProvider } from '@/components/scroll-ui-provider'
 import { ScrollHeader } from '@/components/scroll-header'
 import { FloatingCta } from '@/components/floating-cta'
-import { Mail, Phone, MapPin } from 'lucide-react'
+import { Mail } from 'lucide-react'
 import { getPublicCourses } from '@/lib/courses'
 
 export default async function Home() {
@@ -69,9 +69,9 @@ export default async function Home() {
       </ScrollUiProvider>
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-slate-300 py-12">
+      <footer className="bg-slate-900 text-slate-300 pt-12 pb-24 md:pb-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="grid md:grid-cols-4 gap-8 mb-8">
+          <div className="grid gap-8 mb-8 md:grid-cols-2">
             <div>
               <div className="flex items-center gap-2 mb-4">
                 <div className="w-8 h-8 bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg flex items-center justify-center">
@@ -80,54 +80,76 @@ export default async function Home() {
                 <span className="font-bold text-white">Elneb EdTech</span>
               </div>
               <p className="text-sm">Master professional video editing with our comprehensive course.</p>
+
+              <div className="mt-6 bg-slate-800 rounded-lg p-4 border border-slate-700">
+                <p className="text-lg font-semibold text-white">Phone / WhatsApp</p>
+                <p className="text-orange-400 font-bold text-xl">+91 72509 39051</p>
+                <p className="mt-3 text-lg font-semibold text-white">Email</p>
+                <p className="text-white font-medium">
+                  <a href="mailto:rasoiroom31@gmail.com" className="hover:text-orange-400">rasoiroom31@gmail.com</a>
+                </p>
+              </div>
             </div>
 
             <div>
-              <h3 className="font-semibold text-white mb-4">Course</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Curriculum</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Projects</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Resources</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Community</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-white mb-4">Company</h3>
-              <ul className="space-y-2 text-sm">
-                <li><a href="#" className="hover:text-orange-400 transition-colors">About</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Blog</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Contact</a></li>
-                <li><a href="#" className="hover:text-orange-400 transition-colors">Careers</a></li>
-              </ul>
-            </div>
-
-            <div>
-              <h3 className="font-semibold text-white mb-4">Contact Info</h3>
-              <ul className="space-y-3 text-sm">
-                <li className="flex items-center gap-2">
-                  <Mail className="w-4 h-4" />
-                  <a href="mailto:hello@elnebedtech.com" className="hover:text-orange-400 transition-colors">hello@elnebedtech.com</a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <Phone className="w-4 h-4" />
-                  <a href="tel:+919876543210" className="hover:text-orange-400 transition-colors">+91 9876 543 210</a>
-                </li>
-                <li className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4" />
-                  <span>Mumbai, India</span>
-                </li>
-              </ul>
+              <h3 className="font-semibold text-white mb-4">Contact Us</h3>
+              <form
+                action="mailto:rasoiroom31@gmail.com"
+                method="post"
+                encType="text/plain"
+                className="grid gap-3 rounded-2xl border border-slate-700 bg-slate-950/40 p-4"
+              >
+                <input
+                  name="name"
+                  type="text"
+                  placeholder="Your name"
+                  className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-orange-500"
+                  required
+                />
+                <input
+                  name="email"
+                  type="email"
+                  placeholder="Your email"
+                  className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-orange-500"
+                  required
+                />
+                <textarea
+                  name="problem"
+                  placeholder="Describe your problem"
+                  rows={4}
+                  className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-orange-500"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-3 font-semibold text-white hover:bg-orange-600 transition-colors"
+                >
+                  <Mail className="h-4 w-4" />
+                  Submit
+                </button>
+              </form>
             </div>
           </div>
 
-          <div className="border-t border-slate-700 pt-8 flex flex-col md:flex-row justify-between items-center">
-            <p className="text-sm">&copy; 2024 Elneb EdTech. All rights reserved.</p>
-            <div className="flex gap-6 mt-4 md:mt-0 text-sm">
-              <a href="#" className="hover:text-orange-400 transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-orange-400 transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-orange-400 transition-colors">Refund Policy</a>
+          <div className="border-t border-slate-700 pt-8 pb-4 flex flex-col md:flex-row justify-between items-center gap-4">
+            <div className="flex flex-col md:flex-row items-center justify-between w-full gap-4">
+              <div className="text-sm"> 
+                <a href="/terms" className="hover:text-orange-400 transition-colors mr-4">Terms of Service |</a>
+                <a href="/privacy" className="hover:text-orange-400 transition-colors mr-4">Privacy Policy |</a>
+                <a href="#" className="hover:text-orange-400 transition-colors mr-4">Contact Us |</a>
+                <a href="#" className="hover:text-orange-400 transition-colors mr-4">Refund Policy |</a>
+                <a href="#" className="hover:text-orange-400 transition-colors">Disclaimer</a>
+              </div>
+              <div className="text-sm">
+                <p>&copy; 2026 - <a href="https://elneb.in" target="_blank" rel="noreferrer" className="font-semibold text-white hover:text-orange-400">ELNEB</a> - All Rights Reserved</p>
+              </div>
             </div>
+          </div>
+
+          {/* Bottom bar always visible at page end */}
+          <div className="mt-6 border-t border-slate-800 pt-4 text-center text-sm text-slate-400">
+            <span>Copyright 2026 - ELNEB - All Rights Reserved • </span>
+            <a href="https://elneb.in" target="_blank" rel="noreferrer" className="text-white hover:text-orange-400">https://elneb.in</a>
           </div>
         </div>
       </footer>
