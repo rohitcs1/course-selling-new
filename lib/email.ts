@@ -20,7 +20,7 @@ export async function sendCourseLink(
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #333;">Welcome to Inside The Edit!</h2>
+        <h2 style="color: #333;">Welcome to Elneb EdTech!</h2>
         <p>Hi ${name},</p>
         <p>Thank you for purchasing our video editing course. We're excited to have you on this learning journey!</p>
         
@@ -42,7 +42,7 @@ export async function sendCourseLink(
         
         <p style="color: #666; font-size: 12px; margin-top: 30px;">
           Best regards,<br/>
-          Inside The Edit Team
+          Elneb EdTech Team
         </p>
       </div>
     `
@@ -50,9 +50,9 @@ export async function sendCourseLink(
     const mailOptions = {
       from: process.env.EMAIL_FROM || process.env.SMTP_USER,
       to: email,
-      subject: 'Your Inside The Edit Course Access Link',
+      subject: 'Your Elneb EdTech Course Access Link',
       html: htmlContent,
-      text: `Welcome to Inside The Edit!\n\nThank you for purchasing our course.\n\nYour course link: ${courseLink}\n\nHappy learning!`,
+      text: `Welcome to Elneb EdTech!\n\nThank you for purchasing our course.\n\nYour course link: ${courseLink}\n\nHappy learning!`,
     }
 
     const result = await transporter.sendMail(mailOptions)

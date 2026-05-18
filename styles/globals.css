@@ -123,3 +123,32 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Small UI animations and helper classes for admin cards */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-up {
+  animation: fadeUp 260ms cubic-bezier(.22,.9,.3,1) both;
+}
+
+/* Subtle accent background for day cards */
+.card-accent {
+  background-image: linear-gradient(90deg, rgba(251,146,60,0.06), rgba(255,112,67,0.03));
+}
+
+.order-chip {
+  border-radius: 0.5rem;
+  padding: 0.5rem 0.75rem;
+}
+
+@keyframes wiggleX {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  75% { transform: translateX(4px); }
+}
+
+.animate-wiggle-x {
+  animation: wiggleX 1.8s ease-in-out infinite;
+}

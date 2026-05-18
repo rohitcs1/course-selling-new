@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { verifyRazorpaySignature } from '@/lib/razorpay'
 import { supabaseRequest } from '@/lib/supabaseAdmin'
 import { sendCourseLink } from '@/lib/email'
+import { getCourseById } from '@/lib/courses'
 
 const COURSE_LINK = process.env.NEXT_PUBLIC_COURSE_LINK || 'https://drive.google.com/drive/folders/your-folder-id'
 
@@ -57,8 +58,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    const orderRow = Array.isArray(data) ? data[0] : null
+    const course = orderRow?.course_id ? await getCourseById(orderRow.course_id) : null
+    const courseLink = course?.drive_link || COURSE_LINK
+
     // Send course link via email
-    const emailResult = await sendCourseLink(email, COURSE_LINK)
+    const emailResult = await sendCourseLink(email, courseLink)
 
     if (!emailResult.success) {
       console.error('[v0] Email sending failed:', emailResult.error)
@@ -69,6 +74,7 @@ export async function POST(request: NextRequest) {
       success: true,
       message: 'Payment verified successfully',
       data,
+      courseLink,
     })
   } catch (error) {
     console.error('[v0] Payment verification error:', error)

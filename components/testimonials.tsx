@@ -1,70 +1,50 @@
 'use client'
 
-import { Star } from 'lucide-react'
+type TestimonialsProps = {
+  checkoutHref: string
+}
 
-const testimonials = [
-  {
-    name: 'Aisha Patel',
-    role: 'Content Creator',
-    image: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
-    rating: 5,
-    text: 'This course completely transformed my editing skills. The instructor breaks down complex concepts beautifully and the real-world projects are incredibly valuable.',
-  },
-  {
-    name: 'Rahul Singh',
-    role: 'Freelance Editor',
-    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
-    rating: 5,
-    text: 'Worth every penny! I\'ve applied what I learned immediately to my client projects and doubled my rates. The techniques taught here are professional-grade.',
-  },
-  {
-    name: 'Priya Sharma',
-    role: 'YouTube Creator',
-    image: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop',
-    rating: 5,
-    text: 'The best investment I\'ve made for my content. My video quality has improved dramatically, and my audience engagement is up 300%. Highly recommend!',
-  },
+// Use raw screenshots from `public/image/` as requested by the admin.
+const IMAGE_FILES = [
+  'image1.jpeg',
+  'image2.jpeg',
+  'image3.jpeg',
+  'image4.jpeg',
+  'image5.jpeg',
+  'image6.jpeg',
+  'image7.jpeg',
 ]
 
-export function Testimonials() {
+export function Testimonials({ checkoutHref }: TestimonialsProps) {
   return (
-    <section className="py-20 md:py-32 bg-gradient-to-br from-slate-950 to-slate-900">
+    <section className="py-16 md:py-24 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <p className="text-orange-400 font-semibold mb-2">Success Stories</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">What Our Students Say</h2>
-          <p className="text-lg text-slate-300 max-w-2xl mx-auto">
-            Join hundreds of satisfied students who have transformed their video editing skills
-          </p>
+        <div className="text-center mb-8">
+          <p className="text-orange-500 font-semibold mb-2">Real Student Screenshots</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-2">What Our Students Say</h2>
+          <p className="text-sm text-slate-600 max-w-2xl mx-auto">Screenshots from students — no styled cards, just clear images so visitors can verify authenticity.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <div
-              key={index}
-              className="rounded-xl bg-slate-800 border border-slate-700 p-8 hover:border-orange-400 transition-all duration-300"
-            >
-              <div className="flex items-center gap-1 mb-4">
-                {Array.from({ length: testimonial.rating }).map((_, i) => (
-                  <Star key={i} className="w-5 h-5 fill-orange-400 text-orange-400" />
-                ))}
-              </div>
-
-              <p className="text-slate-300 mb-6 leading-relaxed">&quot;{testimonial.text}&quot;</p>
-
-              <div className="flex items-center gap-4">
-                <img
-                  src={testimonial.image}
-                  alt={testimonial.name}
-                  className="w-12 h-12 rounded-full object-cover"
-                />
-                <div>
-                  <p className="font-semibold text-white">{testimonial.name}</p>
-                  <p className="text-sm text-slate-400">{testimonial.role}</p>
-                </div>
-              </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {IMAGE_FILES.map((file) => (
+            <div key={file} className="overflow-hidden rounded-md bg-white p-[4%]">
+              <img
+                src={`/image/${file}`}
+                onError={(e: any) => { e.currentTarget.src = '/placeholder.jpg' }}
+                alt="student screenshot"
+                className="block w-full h-auto max-w-full object-contain border border-slate-200 shadow-sm hover:shadow-lg transform transition-transform duration-300 hover:scale-[1.01]"
+              />
             </div>
           ))}
+        </div>
+
+        <div className="mt-8 text-center">
+          <a
+            href={checkoutHref}
+            className="inline-flex items-center justify-center w-full md:w-1/2 mx-auto px-8 py-4 bg-orange-500 text-white font-extrabold rounded-lg hover:bg-orange-600 transition-transform duration-200 text-lg"
+          >
+            Enroll Now
+          </a>
         </div>
       </div>
     </section>

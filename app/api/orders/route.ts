@@ -9,7 +9,7 @@ const razorpay = new Razorpay({
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, amount, currency = 'INR' } = await request.json()
+    const { email, amount, currency = 'INR', courseId } = await request.json()
 
     if (!email || !amount) {
       return NextResponse.json(
@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
         email,
         amount,
         currency,
+        course_id: courseId || null,
         razorpay_order_id: razorpayOrder.id,
         status: 'pending',
       },

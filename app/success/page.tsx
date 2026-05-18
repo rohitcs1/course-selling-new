@@ -28,7 +28,7 @@ export default function SuccessPage() {
           </div>
 
           <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            Welcome to Inside The Edit!
+            Welcome to Elneb EdTech!
           </h1>
 
           <p className="text-lg text-slate-600 mb-8">
@@ -121,7 +121,7 @@ export default function SuccessPage() {
               Back to Home
             </Link>
             <a
-              href="mailto:hello@insidetheedit.com"
+              href="mailto:hello@elnebedtech.com"
               className="px-8 py-3 border-2 border-slate-300 text-slate-900 font-semibold rounded-lg hover:border-slate-400 transition-colors"
             >
               Contact Support
@@ -133,10 +133,10 @@ export default function SuccessPage() {
             <p className="text-slate-600 text-sm">
               Have questions? Email us at{' '}
               <a
-                href="mailto:hello@insidetheedit.com"
+                href="mailto:hello@elnebedtech.com"
                 className="text-blue-600 hover:underline font-semibold"
               >
-                hello@insidetheedit.com
+                hello@elnebedtech.com
               </a>
               {' '}or call{' '}
               <a

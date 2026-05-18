@@ -1,13 +1,20 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { Loader2, ArrowLeft, CheckCircle } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-const COURSE_PRICE = 1499
+const DEFAULT_COURSE = {
+  id: '',
+  title: 'Elneb EdTech',
+  description: 'Professional Video Editing Course',
+  poster_url: '',
+  price: 0,
+}
+
 const RAZORPAY_KEY_ID = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
 
 declare global {
@@ -16,16 +23,58 @@ declare global {
   }
 }
 
+type Course = {
+  id: string
+  title: string
+  description: string | null
+  poster_url: string | null
+  drive_link: string | null
+  price: number
+}
+
 export default function CheckoutPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const courseId = searchParams.get('courseId')
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
   })
+  const [course, setCourse] = useState<Course | null>(null)
+  const [courseLoading, setCourseLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Load Razorpay script
+  useEffect(() => {
+    async function loadCourse() {
+      if (!courseId) {
+        setCourse(null)
+        return
+      }
+
+      setCourseLoading(true)
+      try {
+        const res = await fetch(`/api/admin/courses/${courseId}`)
+        if (!res.ok) {
+          setCourse(null)
+          return
+        }
+        const json = await res.json()
+        setCourse(json)
+      } finally {
+        setCourseLoading(false)
+      }
+    }
+
+    loadCourse()
+  }, [courseId])
+
+  const amount = course?.price ?? DEFAULT_COURSE.price
+  const title = course?.title ?? DEFAULT_COURSE.title
+  const description = course?.description ?? DEFAULT_COURSE.description
+  const posterUrl = course?.poster_url ?? DEFAULT_COURSE.poster_url
+
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {
       const script = document.createElement('script')
@@ -43,7 +92,6 @@ export default function CheckoutPage() {
     setLoading(true)
 
     try {
-      // Validate inputs
       if (!formData.name.trim()) {
         setError('Please enter your name')
         setLoading(false)
@@ -62,14 +110,14 @@ export default function CheckoutPage() {
         return
       }
 
-      // Create order
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: formData.email,
-          amount: COURSE_PRICE,
+          amount,
           currency: 'INR',
+          courseId: course?.id || null,
         }),
       })
 
@@ -79,7 +127,6 @@ export default function CheckoutPage() {
 
       const orderData = await orderRes.json()
 
-      // Load Razorpay
       const isLoaded = await loadRazorpayScript()
       if (!isLoaded) {
         throw new Error('Failed to load payment gateway')
@@ -90,8 +137,8 @@ export default function CheckoutPage() {
         amount: orderData.amount,
         currency: orderData.currency,
         order_id: orderData.orderID,
-        name: 'Inside The Edit',
-        description: 'Professional Video Editing Course',
+        name: title,
+        description,
         prefill: {
           name: formData.name,
           email: formData.email,
@@ -101,7 +148,6 @@ export default function CheckoutPage() {
         },
         handler: async (response: any) => {
           try {
-            // Verify payment on server
             const verifyRes = await fetch('/api/verify-payment', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
@@ -117,7 +163,17 @@ export default function CheckoutPage() {
               throw new Error('Payment verification failed')
             }
 
-            // Redirect to success page
+            const verifyJson = await verifyRes.json()
+            const driveLink = verifyJson?.courseLink
+            // Open the drive link in a new tab if available (admin-provided), then navigate to success page
+            if (driveLink) {
+              try {
+                window.open(driveLink, '_blank')
+              } catch (err) {
+                // ignore
+              }
+            }
+
             router.push(`/success?email=${encodeURIComponent(formData.email)}`)
           } catch (err) {
             setError('Payment verification failed. Please contact support.')
@@ -141,7 +197,6 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      {/* Header */}
       <header className="bg-white border-b border-slate-200">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center">
           <Link href="/" className="flex items-center gap-2 text-slate-600 hover:text-slate-900">
@@ -151,14 +206,14 @@ export default function CheckoutPage() {
         </div>
       </header>
 
-      {/* Main Content */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid md:grid-cols-3 gap-8">
-          {/* Left - Course Summary */}
           <div className="md:col-span-2">
             <div className="bg-white rounded-lg shadow-lg p-8">
               <h1 className="text-3xl font-bold text-slate-900 mb-2">Complete Your Purchase</h1>
-              <p className="text-slate-600 mb-8">Fill in your details to get instant access to the course</p>
+              <p className="text-slate-600 mb-8">
+                {courseLoading ? 'Loading selected course...' : 'Fill in your details to get instant access to the course'}
+              </p>
 
               <form onSubmit={handlePayment} className="space-y-6">
                 {error && (
@@ -168,32 +223,24 @@ export default function CheckoutPage() {
                 )}
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-900 mb-2">
-                    Full Name
-                  </label>
+                  <label className="block text-sm font-semibold text-slate-900 mb-2">Full Name</label>
                   <Input
                     type="text"
                     placeholder="John Doe"
                     value={formData.name}
-                    onChange={(e) =>
-                      setFormData({ ...formData, name: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     disabled={loading}
                     className="w-full"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-slate-900 mb-2">
-                    Email Address
-                  </label>
+                  <label className="block text-sm font-semibold text-slate-900 mb-2">Email Address</label>
                   <Input
                     type="email"
                     placeholder="john@example.com"
                     value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                     disabled={loading}
                     className="w-full"
                   />
@@ -208,7 +255,7 @@ export default function CheckoutPage() {
                   className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
                 >
                   {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-                  {loading ? 'Processing...' : 'Pay ₹1,499 Now'}
+                  {loading ? 'Processing...' : `Pay ₹${amount} Now`}
                 </Button>
 
                 <p className="text-xs text-slate-500 text-center">
@@ -218,19 +265,23 @@ export default function CheckoutPage() {
             </div>
           </div>
 
-          {/* Right - Order Summary */}
           <div className="md:col-span-1">
             <div className="bg-white rounded-lg shadow-lg p-8 sticky top-8">
               <h2 className="text-xl font-bold text-slate-900 mb-6">Order Summary</h2>
 
               <div className="space-y-4 mb-6 pb-6 border-b border-slate-200">
                 <div className="flex gap-4">
-                  <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center flex-shrink-0">
-                    <span className="text-2xl">🎬</span>
+                  <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
+                    {posterUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={posterUrl} alt={title} className="h-full w-full object-cover" />
+                    ) : (
+                      <span className="text-2xl">🎬</span>
+                    )}
                   </div>
                   <div className="flex-1">
-                    <p className="font-semibold text-slate-900">Inside The Edit</p>
-                    <p className="text-sm text-slate-600">Professional Video Editing Course</p>
+                    <p className="font-semibold text-slate-900">{title}</p>
+                    <p className="text-sm text-slate-600">{description}</p>
                     <ul className="text-xs text-slate-500 mt-2 space-y-1">
                       <li className="flex items-center gap-1">
                         <CheckCircle className="w-3 h-3" /> 40 hours of content
@@ -249,7 +300,7 @@ export default function CheckoutPage() {
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between">
                   <span className="text-slate-600">Price</span>
-                  <span className="font-semibold text-slate-900">₹1,499</span>
+                  <span className="font-semibold text-slate-900">₹{amount}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600">Tax (0%)</span>
@@ -260,14 +311,12 @@ export default function CheckoutPage() {
               <div className="border-t border-slate-200 pt-4">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-bold text-slate-900">Total</span>
-                  <span className="text-2xl font-bold text-orange-600">₹1,499</span>
+                  <span className="text-2xl font-bold text-orange-600">₹{amount}</span>
                 </div>
               </div>
 
               <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-sm text-green-700">
-                  ✓ 30-day money-back guarantee
-                </p>
+                <p className="text-sm text-green-700">✓ 30-day money-back guarantee</p>
               </div>
             </div>
           </div>

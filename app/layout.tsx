@@ -7,7 +7,7 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'Inside The Edit - Professional Video Editing Course',
+  title: 'Elneb EdTech - Professional Video Editing Course',
   description: 'Master video editing with our comprehensive online course. Learn professional techniques, industry tools, and create stunning edits.',
   generator: 'v0.app',
   icons: {

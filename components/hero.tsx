@@ -3,7 +3,11 @@
 import Link from 'next/link'
 import { PlayCircle } from 'lucide-react'
 
-export function Hero() {
+type HeroProps = {
+  checkoutHref: string
+}
+
+export function Hero({ checkoutHref }: HeroProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-20 md:py-32 lg:py-40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -39,15 +43,12 @@ export function Hero() {
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link
-                href="/checkout"
-                className="inline-flex items-center justify-center px-8 py-3 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors"
+                href={checkoutHref}
+                className="inline-flex items-center justify-center px-12 py-6 bg-orange-500 text-white font-extrabold rounded-xl hover:bg-orange-600 transition-transform duration-300 transform-gpu animate-wiggle-x shadow-2xl shadow-orange-500/30 text-xl md:text-2xl"
+                aria-label="Enroll now"
               >
                 Enroll Now
               </Link>
-              <button className="inline-flex items-center justify-center px-8 py-3 border-2 border-slate-500 text-white font-semibold rounded-lg hover:border-slate-400 transition-colors">
-                <PlayCircle className="w-5 h-5 mr-2" />
-                Watch Demo
-              </button>
             </div>
 
             {/* Stats */}
