@@ -165,12 +165,13 @@ export default function CheckoutPage() {
 
             const verifyJson = await verifyRes.json()
             const driveLink = verifyJson?.courseLink
-            // Open the drive link in a new tab if available (admin-provided), then navigate to success page
+            // If a course drive link is available, redirect the user there directly
             if (driveLink) {
               try {
-                window.open(driveLink, '_blank')
+                window.location.href = driveLink
+                return
               } catch (err) {
-                // ignore
+                // fallback to success page if redirect fails
               }
             }
 
