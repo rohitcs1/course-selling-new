@@ -68,15 +68,6 @@ export function FAQ() {
           ))}
         </div>
 
-        <div className="mt-12 text-center p-8 rounded-lg border border-slate-700 bg-slate-800">
-          <p className="text-slate-300 mb-4">Still have questions?</p>
-          <a
-            href="mailto:support@elnebedtech.com"
-            className="inline-flex items-center justify-center px-6 py-2 bg-orange-500 text-white font-semibold rounded-lg hover:bg-orange-600 transition-colors"
-          >
-            Contact Us
-          </a>
-        </div>
       </div>
     </section>
   )
