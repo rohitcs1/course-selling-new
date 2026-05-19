@@ -3,6 +3,7 @@ import { Hero } from '@/components/hero'
 import { Syllabus } from '@/components/syllabus'
 import { Testimonials } from '@/components/testimonials'
 import { FAQ } from '@/components/faq'
+import { Pricing } from '@/components/pricing'
 import { ScrollUiProvider } from '@/components/scroll-ui-provider'
 import { ScrollHeader } from '@/components/scroll-header'
 import { FloatingCta } from '@/components/floating-cta'
@@ -26,44 +27,7 @@ export default async function Home() {
         </div>
         <Syllabus checkoutHref={checkoutHref} />
         <Testimonials checkoutHref={checkoutHref} />
-        <section id="pricing" className="py-20 md:py-28 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="mb-10 text-center">
-            <p className="mb-2 font-semibold text-orange-500">Available Courses</p>
-            <h2 className="text-4xl font-bold text-slate-900">Pick a course and pay for that exact course</h2>
-          </div>
-
-          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
-            {courses.length ? courses.map((course) => (
-              <article key={course.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                <div className="aspect-video bg-gradient-to-br from-orange-50 to-amber-100 flex items-center justify-center">
-                  {course.poster_url ? (
-                    // eslint-disable-next-line @next/next/no-img-element
-                    <img src={course.poster_url} alt={course.title} className="h-full w-full object-cover" />
-                  ) : (
-                    <span className="text-5xl">🎬</span>
-                  )}
-                </div>
-                <div className="p-6">
-                  <div className="mb-2 flex items-start justify-between gap-4">
-                    <h3 className="text-xl font-bold text-slate-900">{course.title}</h3>
-                    <span className="rounded-full bg-orange-100 px-3 py-1 text-sm font-semibold text-orange-700">₹{course.price}</span>
-                  </div>
-                  <p className="mb-5 text-sm text-slate-600 line-clamp-3">{course.description || 'No description provided yet.'}</p>
-                  <Link
-                    href={`/checkout?courseId=${course.id}`}
-                    className="block rounded-lg bg-orange-500 px-4 py-3 text-center font-semibold text-white hover:bg-orange-600"
-                  >
-                    Enroll Now
-                  </Link>
-                </div>
-              </article>
-            )) : (
-              <p className="text-slate-500">No public courses found.</p>
-            )}
-          </div>
-        </div>
-        </section>
+        <Pricing checkoutHref={checkoutHref} currentPrice={featuredCourse?.price ?? 299} />
         <FAQ />
         <FloatingCta price={featuredCourse?.price ?? 0} enrollHref={checkoutHref} />
       </ScrollUiProvider>

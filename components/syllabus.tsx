@@ -1,24 +1,45 @@
 'use client'
 
-import { CheckCircle, Film, Layers, Zap } from 'lucide-react'
+import { CheckCircle, Film, Star, Zap } from 'lucide-react'
+
+const reviews = [
+  {
+    name: 'Abhishek K.',
+    rating: 5,
+    description:
+      '"I am Fully satisfied by the course that has been offered to me and I have learnt many lesson that were not known to me before. Thank you sir." - Abhishek K.',
+  },
+  {
+    name: 'Rakesh',
+    rating: 5,
+    description:
+      '"Inside the edit course is a game-changer! From basics to advanced skills, it been an incredible journey. Clear instruction and expert guidance have transformed my editing abilities. Highly recommended" - Rakesh',
+  },
+  {
+    name: 'Vaibhavi S.',
+    rating: 5,
+    description:
+      '"Each and every thing is covered for video editing in a structured format and you can start editing for clients right after completing the course." - Vaibhavi S.',
+  },
+]
 
 const modules = [
   {
     icon: Film,
     title: 'Fundamentals of Video Editing',
-    description: 'Learn the basics of editing, timeline management, and essential workflows.',
-    topics: ['Editing principles', 'Timeline basics', 'Keyboard shortcuts', 'Audio syncing'],
+    description: 'Start from the basics and build a strong foundation in editing workflows.',
+    topics: ['Color Correction', 'Cinematic Color Grading', 'Wedding Invitation Editing', 'Animated Title Making', 'Ultimate Effect Making', 'Ai Video Creation & Editing'],
   },
   {
-    icon: Layers,
+    icon: Film,
     title: 'Advanced Effects & Transitions',
-    description: 'Master professional effects, color grading, and advanced transitions.',
-    topics: ['Color correction', 'Effects library', 'Motion graphics', 'Transitions'],
+    description: 'Learn the techniques that make your edits look polished, professional, and dynamic.',
+    topics: ['Multi-Cam Editing', 'Green Screen Editing', 'YouTube Editing', 'Color Conversion Effect', 'Advertisement Editing', 'Ai Video Avatar Creation'],
   },
   {
     icon: Zap,
     title: 'Real-World Projects',
-    description: 'Apply your skills to real projects and build a professional portfolio.',
+    description: 'Apply everything you learn with hands-on projects that mirror client work.',
     topics: ['Music videos', 'Cinematic edits', 'YouTube content', 'Corporate videos'],
   },
 ]
@@ -31,9 +52,22 @@ export function Syllabus({ checkoutHref }: SyllabusProps) {
   return (
     <section className="py-20 md:py-32 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="mb-16 grid gap-6 md:grid-cols-3">
+          {reviews.map((review) => (
+            <div key={review.name} className="rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
+              <div className="mb-4 flex items-center gap-1 text-amber-400">
+                {Array.from({ length: review.rating }).map((_, index) => (
+                  <Star key={index} className="h-5 w-5 fill-current" />
+                ))}
+              </div>
+              <p className="text-base leading-7 text-slate-700">{review.description}</p>
+              <p className="mt-4 text-sm font-semibold text-slate-900">{review.name}</p>
+            </div>
+          ))}
+        </div>
+
         <div className="text-center mb-16">
-          <p className="text-orange-500 font-semibold mb-2">Course Content</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">What You&apos;ll Learn</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">What You Are Going To Learn...</h2>
           <p className="text-lg text-slate-600 max-w-2xl mx-auto">
             Comprehensive curriculum covering everything from basics to advanced professional techniques
           </p>

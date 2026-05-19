@@ -2,23 +2,35 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Clock, CheckCircle } from 'lucide-react'
+import { Check, Clock } from 'lucide-react'
 
-const features = [
-  'Complete 40-hour video course',
-  'Lifetime access to materials',
-  'Project files and resources',
-  'Email support',
-  'Certificate of completion',
-  'Monthly updates with new content',
+type Feature = {
+  label: string
+  note: string
+}
+
+const leftFeatures: Feature[] = [
+  { label: '8 Incredibly Valuable, Online Training', note: 'Value = ₹5,999' },
+  { label: 'Private Community Access', note: '₹2,499' },
+  { label: 'Call, Email & Whatsapp Chat Support', note: '₹3,999' },
+  { label: 'Course Lifetime Update', note: '₹4,999' },
 ]
 
-export function Pricing() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-  })
+const rightFeatures: Feature[] = [
+  { label: 'Stock Music & Videos Collection', note: '₹4,999' },
+  { label: 'Premium Fonts & Templates Packs', note: '₹4,999' },
+  { label: 'Ai Video Creation & Editing', note: '₹6,999' },
+  { label: 'Certificate After Complete Course', note: 'Priceless' },
+]
+
+type PricingProps = {
+  checkoutHref: string
+  currentPrice?: number
+  originalPrice?: number
+}
+
+export function Pricing({ checkoutHref, currentPrice = 299, originalPrice = 1499 }: PricingProps) {
+  const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 0 })
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -26,79 +38,81 @@ export function Pricing() {
       const endOfDay = new Date(now)
       endOfDay.setHours(23, 59, 59, 999)
 
-      const diff = endOfDay.getTime() - now.getTime()
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24))
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))
-      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))
+      const diff = Math.max(0, endOfDay.getTime() - now.getTime())
+      const minutes = Math.floor(diff / (1000 * 60))
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
 
-      setTimeLeft({ days, hours, minutes })
+      setTimeLeft({ minutes, seconds })
     }, 1000)
 
     return () => clearInterval(timer)
   }, [])
 
   return (
-    <section className="py-20 md:py-32 bg-white">
-      <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-12">
-          <p className="text-orange-500 font-semibold mb-2">Limited Time Offer</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">Simple, Transparent Pricing</h2>
+    <section id="pricing" className="bg-white py-20 md:py-28">
+      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-black uppercase tracking-tight text-slate-950 md:text-5xl">
+            Here&apos;s what you&apos;ll get :
+          </h2>
         </div>
 
-        {/* Countdown Timer */}
-        <div className="mb-12 rounded-xl bg-gradient-to-r from-orange-50 to-amber-50 border border-orange-200 p-8">
-          <div className="flex items-center justify-center gap-2 mb-4">
-            <Clock className="w-5 h-5 text-orange-600" />
-            <p className="font-semibold text-orange-600">Offer Expires In:</p>
-          </div>
-          <div className="flex justify-center gap-6">
-            <div className="text-center">
-              <p className="text-3xl font-bold text-orange-600">{String(timeLeft.days).padStart(2, '0')}</p>
-              <p className="text-sm text-orange-600">Days</p>
-            </div>
-            <p className="text-2xl text-orange-600">:</p>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-orange-600">{String(timeLeft.hours).padStart(2, '0')}</p>
-              <p className="text-sm text-orange-600">Hours</p>
-            </div>
-            <p className="text-2xl text-orange-600">:</p>
-            <div className="text-center">
-              <p className="text-3xl font-bold text-orange-600">{String(timeLeft.minutes).padStart(2, '0')}</p>
-              <p className="text-sm text-orange-600">Minutes</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Pricing Card */}
-        <div className="rounded-2xl border-2 border-orange-200 bg-gradient-to-br from-white to-orange-50 p-8 md:p-12 shadow-xl">
-          <div className="mb-8">
-            <p className="text-slate-600 text-lg mb-2">Special Course Price</p>
-            <div className="flex items-baseline gap-2">
-              <p className="text-5xl md:text-6xl font-bold text-slate-900">₹1,499</p>
-              <p className="text-xl text-slate-500 line-through">₹4,999</p>
-            </div>
-            <p className="text-orange-600 font-semibold mt-2">70% off - Limited time only</p>
-          </div>
-
-          <Link
-            href="/checkout"
-            className="block w-full mb-8 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-bold py-4 rounded-lg hover:from-orange-600 hover:to-orange-700 transition-all text-center text-lg"
-          >
-            Enroll Now
-          </Link>
-
-          <div className="space-y-4 mb-8 pb-8 border-b border-slate-200">
-            {features.map((feature, index) => (
-              <div key={index} className="flex items-center gap-3">
-                <CheckCircle className="w-5 h-5 text-orange-500 flex-shrink-0" />
-                <span className="text-slate-700">{feature}</span>
+        <div className="mx-auto mt-12 grid max-w-4xl gap-10 md:grid-cols-2 md:gap-14">
+          <div className="space-y-3 text-[15px] leading-6 text-slate-800 md:pl-4">
+            {leftFeatures.map((feature) => (
+              <div key={feature.label} className="flex items-start gap-3">
+                <Check className="mt-1 h-5 w-5 shrink-0 text-blue-600" />
+                <p>
+                  {feature.label}{' '}
+                  <span className="font-semibold">({feature.note})</span>
+                </p>
               </div>
             ))}
           </div>
 
-          <p className="text-center text-slate-600 text-sm">
-            30-day money-back guarantee. No questions asked.
+          <div className="space-y-3 text-[15px] leading-6 text-slate-800 md:pr-4">
+            {rightFeatures.map((feature) => (
+              <div key={feature.label} className="flex items-start gap-3">
+                <Check className="mt-1 h-5 w-5 shrink-0 text-blue-600" />
+                <p>
+                  <span className="font-semibold">Bonus : </span>
+                  {feature.label}{' '}
+                  <span className="font-semibold">({feature.note})</span>
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mx-auto mt-12 max-w-xl text-center">
+          <p className="text-sm text-slate-500 line-through">Total Value : ₹34,493</p>
+          <p className="mt-1 text-2xl text-slate-900 line-through decoration-2 decoration-slate-900/80">
+            Only ₹{originalPrice.toLocaleString('en-IN')}
           </p>
+          <p className="mt-2 text-5xl font-black leading-none tracking-tight text-blue-600 md:text-6xl">
+            Now ₹{currentPrice}/-
+          </p>
+          <p className="mt-2 text-xs font-semibold uppercase tracking-[0.28em] text-red-500">For limited time</p>
+
+          <div className="mt-8 inline-flex flex-col items-center rounded-2xl border border-slate-100 bg-slate-50 px-5 py-4 shadow-sm">
+            <p className="text-sm font-semibold text-slate-700">Offer will expire in...</p>
+            <div className="mt-2 flex items-center gap-2 rounded-xl bg-white px-4 py-2 shadow-inner shadow-slate-200">
+              <Clock className="h-4 w-4 text-blue-600" />
+              <span className="text-2xl font-black text-blue-600">{String(timeLeft.minutes).padStart(2, '0')}</span>
+              <span className="text-sm font-semibold text-slate-400">m</span>
+              <span className="text-2xl font-black text-blue-600">:</span>
+              <span className="text-2xl font-black text-blue-600">{String(timeLeft.seconds).padStart(2, '0')}</span>
+              <span className="text-sm font-semibold text-slate-400">s</span>
+            </div>
+          </div>
+
+          <Link
+            href={checkoutHref}
+            className="mt-10 inline-flex min-h-[66px] w-full items-center justify-center rounded-2xl border border-yellow-300 bg-gradient-to-b from-yellow-300 via-yellow-400 to-yellow-500 px-6 py-4 text-xl font-black uppercase tracking-wide text-black shadow-[0_10px_30px_rgba(234,179,8,0.35)] transition hover:-translate-y-0.5 hover:from-yellow-200 hover:via-yellow-300 hover:to-yellow-400 sm:w-[460px]"
+          >
+            Apply Now
+          </Link>
+          <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-700">Hurry up!</p>
         </div>
       </div>
     </section>

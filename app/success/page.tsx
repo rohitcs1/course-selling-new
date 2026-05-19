@@ -2,160 +2,132 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { CheckCircle, Mail, Download, BookOpen } from 'lucide-react'
+import { CheckCircle2, Mail, ArrowRight, Sparkles } from 'lucide-react'
 
 export default function SuccessPage() {
   const [email, setEmail] = useState('')
+  const [driveLink, setDriveLink] = useState('')
+  const [secondsLeft, setSecondsLeft] = useState(1)
 
   useEffect(() => {
-    // Get email from URL params
     const params = new URLSearchParams(window.location.search)
     setEmail(params.get('email') || '')
+    setDriveLink(params.get('driveLink') || '')
   }, [])
 
+  useEffect(() => {
+    if (!driveLink) return
+
+    const redirectTimer = window.setTimeout(() => {
+      window.location.href = driveLink
+    }, 800)
+
+    const countdownTimer = window.setInterval(() => {
+      setSecondsLeft((current) => Math.max(0, current - 1))
+    }, 800)
+
+    return () => {
+      window.clearTimeout(redirectTimer)
+      window.clearInterval(countdownTimer)
+    }
+  }, [driveLink])
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-green-50 via-white to-blue-50 flex items-center justify-center p-4">
-      <div className="w-full max-w-2xl">
-        {/* Success Card */}
-        <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 text-center">
-          {/* Success Icon */}
-          <div className="flex justify-center mb-6">
-            <div className="relative">
-              <div className="w-24 h-24 bg-gradient-to-br from-green-100 to-green-50 rounded-full flex items-center justify-center">
-                <CheckCircle className="w-12 h-12 text-green-600" />
-              </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-emerald-950 to-slate-900 flex items-center justify-center p-4 overflow-hidden">
+      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+        <div className="absolute -top-32 left-1/4 w-72 h-72 rounded-full bg-emerald-500/20 blur-3xl animate-pulse" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 rounded-full bg-cyan-500/20 blur-3xl animate-pulse" style={{ animationDelay: '1.2s' }} />
+      </div>
+
+      <div className="w-full max-w-3xl">
+        <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/10 backdrop-blur-2xl shadow-2xl p-6 md:p-10 text-center text-white">
+          <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-white/5 pointer-events-none" />
+
+          <div className="relative flex justify-center mb-6">
+            <div className="absolute inset-0 rounded-full bg-emerald-400/20 blur-2xl animate-ping" />
+            <div className="relative w-24 h-24 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-emerald-400 to-cyan-400 flex items-center justify-center shadow-[0_0_60px_rgba(52,211,153,0.35)] animate-[float_2.5s_ease-in-out_infinite]">
+              <CheckCircle2 className="w-14 h-14 md:w-16 md:h-16 text-white" />
             </div>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
-            Welcome to Elneb EdTech!
-          </h1>
-
-          <p className="text-lg text-slate-600 mb-8">
-            Your payment has been successful. You now have lifetime access to the complete video editing course.
-          </p>
-
-          {/* Course Access Info */}
-          <div className="bg-gradient-to-r from-blue-50 to-blue-100 rounded-xl p-8 mb-8 border border-blue-200">
-            <div className="space-y-4">
-              <div className="flex items-start gap-4">
-                <Mail className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                <div className="text-left">
-                  <p className="font-semibold text-slate-900 mb-1">Check Your Email</p>
-                  <p className="text-sm text-slate-600">
-                    We&apos;ve sent the course access link and materials to <span className="font-semibold text-blue-600">{email}</span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 pt-4 border-t border-blue-200">
-                <BookOpen className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                <div className="text-left">
-                  <p className="font-semibold text-slate-900 mb-1">Start Learning</p>
-                  <p className="text-sm text-slate-600">
-                    Click the link in your email to access the complete course with 40+ hours of professional video editing content.
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-start gap-4 pt-4 border-t border-blue-200">
-                <Download className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />
-                <div className="text-left">
-                  <p className="font-semibold text-slate-900 mb-1">Download Resources</p>
-                  <p className="text-sm text-slate-600">
-                    Access project files, presets, templates, and all course materials inside the learning platform.
-                  </p>
-                </div>
-              </div>
+          <div className="relative space-y-4 animate-fade-up">
+            <div className="inline-flex items-center gap-2 rounded-full border border-emerald-400/30 bg-emerald-400/10 px-4 py-2 text-sm font-semibold text-emerald-200">
+              <Sparkles className="w-4 h-4" /> Payment successful
             </div>
-          </div>
 
-          {/* What&apos;s Included */}
-          <div className="text-left mb-8">
-            <h2 className="text-2xl font-bold text-slate-900 mb-4">What&apos;s Included:</h2>
-            <ul className="grid md:grid-cols-2 gap-4">
-              <li className="flex items-center gap-3">
-                <span className="text-2xl">✓</span>
-                <span className="text-slate-700">40+ hours of video content</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="text-2xl">✓</span>
-                <span className="text-slate-700">Lifetime access</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="text-2xl">✓</span>
-                <span className="text-slate-700">Project files & presets</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="text-2xl">✓</span>
-                <span className="text-slate-700">Monthly updates</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="text-2xl">✓</span>
-                <span className="text-slate-700">Email support</span>
-              </li>
-              <li className="flex items-center gap-3">
-                <span className="text-2xl">✓</span>
-                <span className="text-slate-700">Certificate of completion</span>
-              </li>
-            </ul>
-          </div>
+            <h1 className="text-3xl md:text-6xl font-black tracking-tight leading-tight">
+              Check your email ID
+            </h1>
 
-          {/* Next Steps */}
-          <div className="bg-amber-50 rounded-xl p-6 mb-8 border border-amber-200">
-            <p className="font-semibold text-slate-900 mb-2">Next Steps:</p>
-            <ol className="text-left text-slate-700 space-y-2 text-sm">
-              <li><span className="font-semibold">1.</span> Check your email (check spam folder too)</li>
-              <li><span className="font-semibold">2.</span> Click the course access link</li>
-              <li><span className="font-semibold">3.</span> Create your account if needed</li>
-              <li><span className="font-semibold">4.</span> Start watching Module 1 immediately!</li>
-            </ol>
-          </div>
+            <p className="mx-auto max-w-2xl text-lg md:text-2xl font-semibold text-emerald-100 leading-relaxed">
+              Waha course ka link gaya hoga. Abhi aapko turant Google Drive par redirect kiya ja raha hai.
+            </p>
 
-          {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/"
-              className="px-8 py-3 bg-slate-900 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors"
-            >
-              Back to Home
-            </Link>
-            <a
-              href="mailto:hello@elnebedtech.com"
-              className="px-8 py-3 border-2 border-slate-300 text-slate-900 font-semibold rounded-lg hover:border-slate-400 transition-colors"
-            >
-              Contact Support
-            </a>
-          </div>
+            <div className="mx-auto max-w-xl rounded-2xl border border-white/10 bg-slate-950/30 p-4 md:p-6">
+              <div className="flex items-start gap-3 text-left">
+                <Mail className="mt-1 h-5 w-5 shrink-0 text-cyan-300" />
+                <div>
+                  <p className="text-sm md:text-base font-bold text-white">Email sent to</p>
+                  <p className="text-sm md:text-base text-slate-200 break-all">{email || 'your registered email id'}</p>
+                </div>
+              </div>
 
-          {/* Support Info */}
-          <div className="mt-8 pt-8 border-t border-slate-200">
-            <p className="text-slate-600 text-sm">
-              Have questions? Email us at{' '}
+              {driveLink && (
+                <div className="mt-4 flex items-start gap-3 text-left border-t border-white/10 pt-4">
+                  <ArrowRight className="mt-1 h-5 w-5 shrink-0 text-emerald-300" />
+                  <div>
+                    <p className="text-sm md:text-base font-bold text-white">Redirecting to Google Drive</p>
+                    <p className="text-sm md:text-base text-slate-200">
+                      Please wait {secondsLeft}s while we open your course link.
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
+              <Link
+                href="/"
+                className="px-8 py-3 rounded-xl bg-white text-slate-900 font-bold hover:bg-slate-100 transition-colors"
+              >
+                Back to Home
+              </Link>
               <a
                 href="mailto:hello@elnebedtech.com"
-                className="text-blue-600 hover:underline font-semibold"
+                className="px-8 py-3 rounded-xl border border-white/20 text-white font-bold hover:bg-white/10 transition-colors"
               >
-                hello@elnebedtech.com
+                Contact Support
               </a>
-              {' '}or call{' '}
-              <a
-                href="tel:+919876543210"
-                className="text-blue-600 hover:underline font-semibold"
-              >
-                +91 9876 543 210
-              </a>
-            </p>
+            </div>
           </div>
         </div>
-
-        {/* Footer Message */}
-        <div className="text-center mt-8 text-slate-600">
-          <p className="text-sm">
-            Thank you for joining our community of video creators and editors!
-          </p>
-        </div>
       </div>
+
+      <style>{`
+        @keyframes fade-up {
+          from {
+            opacity: 0;
+            transform: translateY(16px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0px);
+          }
+          50% {
+            transform: translateY(-8px);
+          }
+        }
+
+        .animate-fade-up {
+          animation: fade-up 0.6s ease-out forwards;
+        }
+      `}</style>
     </div>
   )
 }

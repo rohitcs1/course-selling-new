@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { Eye, EyeOff, Trash2, Edit2, LogOut, Plus, Search, TrendingUp, Users, BookOpen, IndianRupee } from 'lucide-react'
 
 type Course = {
   id: string
@@ -48,6 +49,10 @@ export default function AdminDashboard() {
     price: 0,
     hidden: false,
   })
+
+  // Calculate stats
+  const totalSales = sales.reduce((sum, row) => sum + row.total_amount, 0)
+  const totalOrders = sales.reduce((sum, row) => sum + row.orders_count, 0)
 
   useEffect(() => {
     const t = localStorage.getItem('admin_token')
@@ -202,37 +207,156 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
-      <div className="mx-auto max-w-7xl space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-3xl font-bold text-slate-900">Admin Dashboard</h1>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 p-4 md:p-8">
+      {/* Animated background blobs */}
+      <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-purple-600 to-pink-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-cyan-600 to-blue-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute top-1/2 left-1/2 w-80 h-80 bg-gradient-to-br from-orange-600 to-red-600 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style={{ animationDelay: '4s' }}></div>
+      </div>
+
+      <div className="mx-auto max-w-7xl space-y-6 relative z-10">
+        {/* Header */}
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-8">
+          <div>
+            <h1 className="text-2xl md:text-4xl lg:text-5xl font-black bg-gradient-to-r from-cyan-400 via-purple-400 to-pink-400 bg-clip-text text-transparent mb-1 md:mb-2 animate-pulse">Admin Dashboard</h1>
+            <p className="text-xs md:text-sm text-slate-300">Manage courses, view analytics & sales</p>
+          </div>
           <button
             onClick={() => {
               localStorage.removeItem('admin_token')
               router.push('/admin')
             }}
-            className="rounded-lg bg-slate-900 px-4 py-2 text-white"
+            className="flex items-center justify-center gap-2 bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-700 hover:to-rose-700 px-4 md:px-6 py-2 md:py-3 rounded-lg text-white font-semibold text-sm md:text-base transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
           >
-            Logout
+            <LogOut size={18} /> Logout
           </button>
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-3">
-          <section className="rounded-2xl bg-white p-6 shadow-sm lg:col-span-2">
-            <h2 className="mb-4 text-xl font-semibold">{editingId ? 'Edit Course' : 'Add Course'}</h2>
-            <form onSubmit={saveCourse} className="grid gap-4 md:grid-cols-2">
-              <input value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} placeholder="Title" className="rounded-lg border p-3 md:col-span-2" />
-              <textarea value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} placeholder="Description" className="rounded-lg border p-3 md:col-span-2" rows={4} />
-              <input value={form.drive_link} onChange={(e) => setForm({ ...form, drive_link: e.target.value })} placeholder="Google Drive link" className="rounded-lg border p-3 md:col-span-2" />
-              <input value={form.poster_url} onChange={(e) => setForm({ ...form, poster_url: e.target.value })} placeholder="Poster URL" className="rounded-lg border p-3 md:col-span-2" />
-              <input type="number" value={form.price} onChange={(e) => setForm({ ...form, price: Number(e.target.value) })} placeholder="Price (₹)" className="rounded-lg border p-3" min="1" required />
-              <label className="flex items-center gap-2 rounded-lg border p-3">
-                <input type="checkbox" checked={form.hidden} onChange={(e) => setForm({ ...form, hidden: e.target.checked })} />
-                Hide course
-              </label>
-              <div className="flex gap-2 md:col-span-2">
-                <button className="rounded-lg bg-orange-500 px-4 py-3 font-semibold text-white">
-                  {editingId ? 'Update Course' : 'Save Course'}
+        {/* Stats Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-8">
+          <div className="bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl p-4 md:p-6 text-white shadow-2xl hover:shadow-cyan-500/20 transform hover:scale-105 transition-all duration-300 animate-fade-up">
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <p className="text-cyan-100 text-xs md:text-sm font-semibold mb-1 md:mb-2">Total Courses</p>
+                <p className="text-2xl md:text-4xl font-bold">{courses.length}</p>
+              </div>
+              <BookOpen className="w-8 md:w-12 h-8 md:h-12 opacity-30 shrink-0" />
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl p-4 md:p-6 text-white shadow-2xl hover:shadow-purple-500/20 transform hover:scale-105 transition-all duration-300 animate-fade-up" style={{ animationDelay: '50ms' }}>
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <p className="text-purple-100 text-xs md:text-sm font-semibold mb-1 md:mb-2">Total Orders</p>
+                <p className="text-2xl md:text-4xl font-bold">{totalOrders}</p>
+              </div>
+              <Users className="w-8 md:w-12 h-8 md:h-12 opacity-30 shrink-0" />
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-orange-500 to-red-600 rounded-2xl p-4 md:p-6 text-white shadow-2xl hover:shadow-orange-500/20 transform hover:scale-105 transition-all duration-300 animate-fade-up" style={{ animationDelay: '100ms' }}>
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <p className="text-orange-100 text-xs md:text-sm font-semibold mb-1 md:mb-2">Total Revenue</p>
+                <p className="text-2xl md:text-4xl font-bold">₹{totalSales.toLocaleString()}</p>
+              </div>
+              <IndianRupee className="w-8 md:w-12 h-8 md:h-12 opacity-30 shrink-0" />
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl p-4 md:p-6 text-white shadow-2xl hover:shadow-green-500/20 transform hover:scale-105 transition-all duration-300 animate-fade-up" style={{ animationDelay: '150ms' }}>
+            <div className="flex items-center justify-between gap-2">
+              <div>
+                <p className="text-green-100 text-xs md:text-sm font-semibold mb-1 md:mb-2">Avg Order Value</p>
+                <p className="text-2xl md:text-4xl font-bold">₹{totalOrders > 0 ? Math.round(totalSales / totalOrders) : 0}</p>
+              </div>
+              <TrendingUp className="w-8 md:w-12 h-8 md:h-12 opacity-30 shrink-0" />
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-4 md:gap-6 lg:grid-cols-3 mb-8">
+          {/* Add/Edit Course Form */}
+          <section className="lg:col-span-2 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl border border-slate-700 hover:border-purple-500 transition-colors duration-300">
+            <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+              <Plus size={20} className="text-purple-400 shrink-0" />
+              <h2 className="text-lg md:text-2xl font-bold text-white">{editingId ? 'Edit Course' : 'Add New Course'}</h2>
+            </div>
+            <form onSubmit={saveCourse} className="space-y-3 md:space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+                <div className="md:col-span-2">
+                  <label className="block text-slate-300 text-xs md:text-sm font-semibold mb-2">Course Title</label>
+                  <input
+                    value={form.title}
+                    onChange={(e) => setForm({ ...form, title: e.target.value })}
+                    placeholder="Enter course title"
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-slate-300 text-xs md:text-sm font-semibold mb-2">Description</label>
+                  <textarea
+                    value={form.description}
+                    onChange={(e) => setForm({ ...form, description: e.target.value })}
+                    placeholder="Enter course description"
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                    rows={3}
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-slate-300 text-xs md:text-sm font-semibold mb-2">Google Drive Link</label>
+                  <input
+                    value={form.drive_link}
+                    onChange={(e) => setForm({ ...form, drive_link: e.target.value })}
+                    placeholder="https://drive.google.com/..."
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-slate-300 text-xs md:text-sm font-semibold mb-2">Poster URL</label>
+                  <input
+                    value={form.poster_url}
+                    onChange={(e) => setForm({ ...form, poster_url: e.target.value })}
+                    placeholder="https://..."
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-slate-300 text-xs md:text-sm font-semibold mb-2">Price (₹)</label>
+                  <input
+                    type="number"
+                    value={form.price}
+                    onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
+                    placeholder="999"
+                    className="w-full bg-slate-700 border border-slate-600 rounded-lg px-3 md:px-4 py-2 md:py-3 text-white text-sm placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-200"
+                    min="1"
+                    required
+                  />
+                </div>
+
+                <div className="flex items-center gap-2 md:gap-3 bg-slate-700 rounded-lg px-3 md:px-4 py-2 md:py-3">
+                  <input
+                    type="checkbox"
+                    checked={form.hidden}
+                    onChange={(e) => setForm({ ...form, hidden: e.target.checked })}
+                    id="hidden"
+                    className="w-4 h-4 rounded cursor-pointer shrink-0"
+                  />
+                  <label htmlFor="hidden" className="text-slate-300 text-sm md:text-base font-semibold cursor-pointer">Hide course</label>
+                </div>
+              </div>
+
+              <div className="flex flex-col md:flex-row gap-2 md:gap-3 pt-4">
+                <button
+                  type="submit"
+                  className="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 px-4 md:px-6 py-2 md:py-3 rounded-lg text-white text-sm md:text-base font-bold transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                >
+                  {editingId ? 'Update' : 'Save'}
                 </button>
                 {editingId && (
                   <button
@@ -241,7 +365,7 @@ export default function AdminDashboard() {
                       setEditingId(null)
                       setForm({ title: '', description: '', drive_link: '', poster_url: '', price: 0, hidden: false })
                     }}
-                    className="rounded-lg border px-4 py-3 font-semibold text-slate-700"
+                    className="flex-1 bg-slate-700 hover:bg-slate-600 px-4 md:px-6 py-2 md:py-3 rounded-lg text-slate-200 text-sm md:text-base font-bold transition-all duration-300"
                   >
                     Cancel
                   </button>
@@ -250,91 +374,180 @@ export default function AdminDashboard() {
             </form>
           </section>
 
-          <section className="rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold">Day-wise Sales</h2>
-            <div className="space-y-3">
-              {sales.length ? sales.map((row) => (
+          {/* Day-wise Sales */}
+          <section className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl border border-slate-700 hover:border-cyan-500 transition-colors duration-300">
+            <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+              <TrendingUp size={20} className="text-cyan-400 shrink-0" />
+              <h2 className="text-lg md:text-2xl font-bold text-white">Day-wise Sales</h2>
+            </div>
+            <div className="space-y-2 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-cyan-500/50 scrollbar-track-slate-700/50">
+              {sales.length ? sales.map((row, index) => (
                 <div
                   key={row.day}
-                  className="flex items-center justify-between rounded-2xl border p-4 card-accent shadow-sm hover:shadow-md transition-transform duration-200 transform hover:-translate-y-1 animate-fade-up"
+                  className="bg-gradient-to-r from-cyan-500/10 to-blue-500/10 border border-cyan-500/30 hover:border-cyan-500 rounded-xl p-3 md:p-4 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/20 animate-fade-up"
+                  style={{ animationDelay: `${index * 50}ms` }}
                 >
-                  <div>
-                    <p className="font-semibold text-slate-900">{row.day}</p>
-                    <p className="text-sm text-slate-500">{row.orders_count} orders</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <p className="font-bold text-orange-600 text-lg">₹{row.total_amount}</p>
-                    <button
-                      onClick={() => fetchOrdersForDay(row.day)}
-                      className="rounded-full bg-white/90 border px-3 py-2 text-sm font-medium shadow-sm hover:shadow-md transition"
-                    >
-                      View Orders
-                    </button>
+                  <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="font-bold text-white text-sm md:text-lg truncate">{row.day}</p>
+                      <p className="text-xs md:text-sm text-cyan-300 mt-0.5">📦 {row.orders_count} orders</p>
+                    </div>
+                    <div className="flex items-center gap-2 md:gap-3 shrink-0">
+                      <div className="text-right">
+                        <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-emerald-400 text-sm md:text-xl">₹{row.total_amount.toLocaleString()}</p>
+                      </div>
+                      <button
+                        onClick={() => fetchOrdersForDay(row.day)}
+                        className="bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-700 hover:to-blue-700 px-2 md:px-3 py-1 md:py-2 rounded-lg text-white text-xs md:text-sm font-semibold transition-all duration-300 whitespace-nowrap"
+                      >
+                        View
+                      </button>
+                    </div>
                   </div>
                 </div>
-              )) : <p className="text-sm text-slate-500">No sales data yet</p>}
+              )) : <p className="text-slate-400 text-center py-8">No sales data yet</p>}
             </div>
           </section>
-          {selectedDay && (
-            <section className="rounded-2xl bg-white p-6 shadow-sm mt-4">
-              <h2 className="mb-4 text-xl font-semibold">Orders for {selectedDay}</h2>
-              <div className="space-y-3">
-                {ordersLoading ? (
-                  <p>Loading...</p>
-                ) : ordersForDay.length ? (
-                  ordersForDay.map((o) => (
-                    <div key={o.id} className="rounded-xl border p-3 bg-white shadow-sm hover:shadow-md transition-transform duration-150 transform hover:scale-[1.02]">
-                      <div className="flex items-start justify-between gap-4">
-                        <div>
-                          <p className="font-medium text-slate-900">{o.email}</p>
-                          <p className="text-sm text-slate-500 mt-1">{new Date(o.created_at).toLocaleString()}</p>
-                        </div>
-                        <div className="text-right">
-                          <p className="font-semibold text-slate-900">₹{o.amount}</p>
-                          <p className="text-xs mt-1 text-green-600">{o.status}</p>
-                        </div>
-                      </div>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-sm text-slate-500">No orders for this day</p>
-                )}
-              </div>
-            </section>
-          )}
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-2">
-          <section className="rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold">Search User by Email</h2>
-            <div className="flex gap-2">
-              <input value={searchEmail} onChange={(e) => setSearchEmail(e.target.value)} placeholder="user@example.com" className="w-full rounded-lg border p-3" />
-              <button onClick={searchByEmail} className="rounded-lg bg-slate-900 px-4 py-3 text-white">Search</button>
+        {/* Orders for Selected Day */}
+        {selectedDay && (
+          <section className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl border border-slate-700 hover:border-orange-500 transition-colors duration-300 animate-fade-up">
+            <div className="flex items-center justify-between gap-2 md:gap-3 mb-4 md:mb-6">
+              <div className="flex items-center gap-2 md:gap-3 min-w-0">
+                <Users size={20} className="text-orange-400 shrink-0" />
+                <h2 className="text-lg md:text-2xl font-bold text-white truncate">Orders for <span className="text-orange-400">{selectedDay}</span></h2>
+              </div>
+              <button
+                onClick={() => setSelectedDay(null)}
+                className="text-slate-400 hover:text-white transition-colors duration-200 text-lg md:text-xl shrink-0"
+              >
+                ✕
+              </button>
             </div>
-            <div className="mt-4 space-y-3">
-              {searchResults.length ? searchResults.map((order) => (
-                <div key={order.id} className="rounded-lg border p-3 text-sm">
-                  <p className="font-medium">{order.email}</p>
-                  <p className="text-slate-500">{order.status} | ₹{order.amount} | {new Date(order.created_at).toLocaleString()}</p>
+            <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-orange-500/50 scrollbar-track-slate-700/50">
+              {ordersLoading ? (
+                <div className="flex items-center justify-center py-8">
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-400"></div>
                 </div>
-              )) : <p className="text-sm text-slate-500">No results</p>}
+              ) : ordersForDay.length ? (
+                ordersForDay.map((o, index) => (
+                  <div
+                    key={o.id}
+                    className="bg-gradient-to-r from-orange-500/10 to-red-500/10 border border-orange-500/30 hover:border-orange-500 rounded-xl p-3 md:p-4 min-h-[80px] md:min-h-[90px] flex flex-col justify-between transition-all duration-300 transform hover:scale-102 hover:shadow-lg hover:shadow-orange-500/20 animate-fade-up"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <div className="flex flex-col gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-white text-xs md:text-sm truncate">{o.email}</p>
+                        <p className="text-xs text-slate-400 mt-0.5 line-clamp-1">📅 {new Date(o.created_at).toLocaleString()}</p>
+                      </div>
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="text-right">
+                          <p className="font-bold text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-red-400 text-sm md:text-base">₹{o.amount}</p>
+                        </div>
+                        <span className={`text-xs font-semibold px-2 py-0.5 rounded-full whitespace-nowrap ${o.status === 'completed' ? 'bg-green-500/30 text-green-300' : o.status === 'pending' ? 'bg-yellow-500/30 text-yellow-300' : 'bg-red-500/30 text-red-300'}`}>
+                          {o.status}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-slate-400 text-center py-8">No orders for this day</p>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* Search User & All Courses Grid */}
+        <div className="grid gap-4 md:gap-6 lg:grid-cols-2">
+          {/* Search User */}
+          <section className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl border border-slate-700 hover:border-pink-500 transition-colors duration-300">
+            <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+              <Search size={20} className="text-pink-400 shrink-0" />
+              <h2 className="text-lg md:text-2xl font-bold text-white">Search User</h2>
+            </div>
+            <div className="flex flex-col md:flex-row gap-2 md:gap-3 mb-4 md:mb-6">
+              <input
+                value={searchEmail}
+                onChange={(e) => setSearchEmail(e.target.value)}
+                placeholder="user@example.com"
+                className="flex-1 bg-slate-700 border border-slate-600 rounded-lg px-4 py-2 md:py-3 text-white text-sm md:text-base placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent transition-all duration-200"
+              />
+              <button
+                onClick={searchByEmail}
+                className="bg-gradient-to-r from-pink-600 to-rose-600 hover:from-pink-700 hover:to-rose-700 px-4 md:px-6 py-2 md:py-3 rounded-lg text-white font-bold text-sm md:text-base transition-all duration-300 transform hover:scale-105 whitespace-nowrap"
+              >
+                Search
+              </button>
+            </div>
+            <div className="space-y-2 max-h-80 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-pink-500/50 scrollbar-track-slate-700/50">
+              {searchResults.length ? searchResults.map((order, index) => (
+                <div
+                  key={order.id}
+                  className="bg-gradient-to-r from-pink-500/10 to-rose-500/10 border border-pink-500/30 rounded-lg p-3 md:p-4 hover:border-pink-500 transition-all duration-300 animate-fade-up"
+                  style={{ animationDelay: `${index * 50}ms` }}
+                >
+                  <p className="font-bold text-white text-xs md:text-sm truncate">{order.email}</p>
+                  <p className="text-xs text-slate-400 mt-1 line-clamp-2">
+                    <span className={`inline-block px-2 py-0.5 rounded text-xs ${order.status === 'completed' ? 'bg-green-500/30 text-green-300' : 'bg-yellow-500/30 text-yellow-300'} mr-1`}>{order.status}</span>
+                    ₹{order.amount} • {new Date(order.created_at).toLocaleString()}
+                  </p>
+                </div>
+              )) : <p className="text-slate-400 text-center py-8">No results</p>}
             </div>
           </section>
 
-          <section className="rounded-2xl bg-white p-6 shadow-sm">
-            <h2 className="mb-4 text-xl font-semibold">All Courses</h2>
-            {loading ? <p>Loading...</p> : (
-              <ul className="space-y-3">
-                {courses.map((c) => (
-                  <li key={c.id} className="flex items-center justify-between rounded-lg border p-4">
-                    <div>
-                      <p className="font-semibold text-slate-900">{c.title} {c.hidden && <span className="text-xs text-slate-500">(hidden)</span>}</p>
-                      <p className="text-sm text-slate-500">₹{c.price}</p>
-                    </div>
-                    <div className="flex gap-2">
-                      <button onClick={() => beginEdit(c)} className="rounded-lg bg-slate-200 px-3 py-2 text-sm font-medium">Edit</button>
-                      <button onClick={() => toggleHidden(c.id, !!c.hidden)} className="rounded-lg bg-amber-400 px-3 py-2 text-sm font-medium">{c.hidden ? 'Unhide' : 'Hide'}</button>
-                      <button onClick={() => removeCourse(c.id)} className="rounded-lg bg-red-600 px-3 py-2 text-sm font-medium text-white">Delete</button>
+          {/* All Courses */}
+          <section className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl p-4 md:p-6 lg:p-8 shadow-2xl border border-slate-700 hover:border-green-500 transition-colors duration-300">
+            <div className="flex items-center gap-2 md:gap-3 mb-4 md:mb-6">
+              <BookOpen size={20} className="text-green-400 shrink-0" />
+              <h2 className="text-lg md:text-2xl font-bold text-white">All Courses</h2>
+            </div>
+            {loading ? (
+              <div className="flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-400"></div>
+              </div>
+            ) : (
+              <ul className="space-y-2 max-h-96 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-green-500/50 scrollbar-track-slate-700/50">
+                {courses.map((c, index) => (
+                  <li
+                    key={c.id}
+                    className="bg-gradient-to-r from-green-500/10 to-emerald-500/10 border border-green-500/30 hover:border-green-500 rounded-xl p-3 md:p-4 transition-all duration-300 transform hover:scale-102 hover:shadow-lg hover:shadow-green-500/20 animate-fade-up"
+                    style={{ animationDelay: `${index * 50}ms` }}
+                  >
+                    <div className="flex flex-col gap-2">
+                      <div className="flex items-start gap-2">
+                        <div className="flex-1 min-w-0">
+                          <p className="font-bold text-white text-xs md:text-sm truncate">
+                            {c.title}
+                            {c.hidden && <span className="ml-1 inline-block bg-red-500/30 text-red-300 text-xs px-1.5 py-0.5 rounded">H</span>}
+                          </p>
+                          <p className="text-xs md:text-sm text-green-300 font-semibold mt-0.5">₹{c.price}</p>
+                        </div>
+                      </div>
+                      <div className="flex flex-wrap gap-1.5">
+                        <button
+                          onClick={() => beginEdit(c)}
+                          className="flex items-center gap-0.5 bg-blue-600 hover:bg-blue-700 px-2 md:px-3 py-1.5 md:py-2 rounded-lg text-white text-xs font-semibold transition-all duration-300"
+                        >
+                          <Edit2 size={12} /> Edit
+                        </button>
+                        <button
+                          onClick={() => toggleHidden(c.id, !!c.hidden)}
+                          className="flex items-center gap-0.5 bg-yellow-600 hover:bg-yellow-700 px-2 md:px-3 py-1.5 md:py-2 rounded-lg text-white text-xs font-semibold transition-all duration-300"
+                        >
+                          {c.hidden ? <Eye size={12} /> : <EyeOff size={12} />}
+                          {c.hidden ? 'Show' : 'Hide'}
+                        </button>
+                        <button
+                          onClick={() => removeCourse(c.id)}
+                          className="flex items-center gap-0.5 bg-red-600 hover:bg-red-700 px-2 md:px-3 py-1.5 md:py-2 rounded-lg text-white text-xs font-semibold transition-all duration-300"
+                        >
+                          <Trash2 size={12} /> Del
+                        </button>
+                      </div>
                     </div>
                   </li>
                 ))}
@@ -343,6 +556,27 @@ export default function AdminDashboard() {
           </section>
         </div>
       </div>
+
+      <style>{`
+        @keyframes fade-up {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-up {
+          animation: fade-up 0.5s ease-out forwards;
+        }
+
+        .hover\:scale-102:hover {
+          transform: scale(1.02);
+        }
+      `}</style>
     </div>
   )
 }

@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Loader2, ArrowLeft, CheckCircle } from 'lucide-react'
+import { ArrowLeft, CheckCircle, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
@@ -140,7 +140,6 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
         currency: orderData.currency,
         order_id: orderData.orderID,
         name: title,
-        description,
         prefill: {
           name: formData.name,
           email: formData.email,
@@ -167,12 +166,12 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
 
             const verifyJson = await verifyRes.json()
             const driveLink = verifyJson?.courseLink
-            if (driveLink) {
-              window.location.href = driveLink
-              return
-            }
 
-            router.push(`/success?email=${encodeURIComponent(formData.email)}`)
+            router.push(
+              `/success?email=${encodeURIComponent(formData.email)}${
+                driveLink ? `&driveLink=${encodeURIComponent(driveLink)}` : ''
+              }`
+            )
           } catch (err) {
             setError('Payment verification failed. Please contact support.')
             setLoading(false)
@@ -194,132 +193,135 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
-      <header className="bg-white border-b border-slate-200">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 flex items-center">
-          <Link href="/" className="flex items-center gap-2 text-slate-600 hover:text-slate-900">
-            <ArrowLeft className="w-5 h-5" />
-            <span>Back</span>
-          </Link>
-        </div>
+    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,rgba(249,115,22,0.14),transparent_30%),linear-gradient(180deg,#fff7ed_0%,#ffffff_45%,#f8fafc_100%)]">
+      <div className="pointer-events-none absolute inset-0 overflow-hidden">
+        <div className="absolute -left-16 top-20 h-56 w-56 rounded-full bg-orange-400/15 blur-3xl animate-pulse" />
+        <div className="absolute right-0 top-1/3 h-72 w-72 rounded-full bg-sky-400/10 blur-3xl animate-pulse [animation-delay:1s]" />
+      </div>
+
+      <header className="relative z-10 px-4 pt-4 sm:px-6 lg:px-8">
+        <Link href="/" aria-label="Back" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/90 text-slate-700 shadow-lg shadow-slate-900/5 backdrop-blur transition hover:-translate-y-0.5 hover:text-slate-950">
+          <ArrowLeft className="h-5 w-5" />
+        </Link>
       </header>
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid md:grid-cols-3 gap-8">
-          <div className="md:col-span-2">
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h1 className="text-3xl font-bold text-slate-900 mb-2">Complete Your Purchase</h1>
-              <p className="text-slate-600 mb-8">
-                {courseLoading ? 'Loading selected course...' : 'Fill in your details to get instant access to the course'}
-              </p>
-
-              <form onSubmit={handlePayment} className="space-y-6">
-                {error && (
-                  <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
-                    {error}
+      <main className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl items-center px-4 py-6 sm:px-6 lg:px-8">
+        <div className="grid w-full gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
+          <section className="order-2 overflow-hidden rounded-[2rem] border border-white/90 bg-white/90 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-xl sm:p-6 lg:order-1 lg:p-8">
+            <div className="overflow-hidden rounded-[1.5rem] border border-slate-100 bg-slate-50 shadow-inner">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
+                {posterUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={posterUrl} alt={title} className="h-full w-full object-cover transition duration-500 hover:scale-105" />
+                ) : (
+                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-orange-500 to-amber-500">
+                    <span className="text-6xl">🎬</span>
                   </div>
                 )}
+              </div>
 
-                <div>
-                  <label className="block text-sm font-semibold text-slate-900 mb-2">Full Name</label>
-                  <Input
-                    type="text"
-                    placeholder="John Doe"
-                    value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                    disabled={loading}
-                    className="w-full"
-                  />
+              <div className="flex items-center justify-between gap-4 border-t border-slate-100 bg-white px-4 py-4 sm:px-5">
+                <h1 className="min-w-0 truncate text-lg font-black text-slate-950 sm:text-2xl">{title}</h1>
+                <div className="shrink-0 rounded-full bg-slate-950 px-4 py-2 text-base font-black text-white sm:text-lg">
+                  ₹{amount}
                 </div>
-
-                <div>
-                  <label className="block text-sm font-semibold text-slate-900 mb-2">Email Address</label>
-                  <Input
-                    type="email"
-                    placeholder="john@example.com"
-                    value={formData.email}
-                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                    disabled={loading}
-                    className="w-full"
-                  />
-                  <p className="text-xs text-slate-500 mt-2">
-                    You&apos;ll receive the course access link at this email
-                  </p>
-                </div>
-
-                <Button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
-                >
-                  {loading && <Loader2 className="w-5 h-5 animate-spin" />}
-                  {loading ? 'Processing...' : `Pay ₹${amount} Now`}
-                </Button>
-
-                <p className="text-xs text-slate-500 text-center">
-                  Your payment is secure and encrypted. 30-day money-back guarantee.
-                </p>
-              </form>
+              </div>
             </div>
-          </div>
 
-          <div className="md:col-span-1">
-            <div className="bg-white rounded-lg shadow-lg p-8 sticky top-8">
-              <h2 className="text-xl font-bold text-slate-900 mb-6">Order Summary</h2>
+            <div className="mt-4 space-y-4 rounded-[1.5rem] border border-slate-100 bg-white p-4 shadow-sm sm:p-5 lg:mt-5">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-orange-600">Course details</p>
+                  <h2 className="mt-1 text-xl font-black text-slate-950 sm:text-2xl">Everything included in this course</h2>
+                </div>
+                <div className="rounded-full bg-orange-50 px-3 py-1.5 text-sm font-black text-orange-600">
+                  ₹{amount}
+                </div>
+              </div>
 
-              <div className="space-y-4 mb-6 pb-6 border-b border-slate-200">
-                <div className="flex gap-4">
-                  <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-orange-100 to-orange-50 flex items-center justify-center flex-shrink-0 overflow-hidden">
+              <p className="whitespace-pre-line text-sm leading-7 text-slate-600 sm:text-base">{description}</p>
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                {[
+                  { label: 'Access', value: 'Instant' },
+                  { label: 'Support', value: 'Guided' },
+                  { label: 'Delivery', value: 'Email link' },
+                ].map((item) => (
+                  <div key={item.label} className="rounded-2xl bg-slate-50 px-4 py-3">
+                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">{item.label}</p>
+                    <p className="mt-1 text-sm font-black text-slate-950">{item.value}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="order-1 rounded-[2rem] border border-slate-200/80 bg-white/90 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-xl sm:p-6 lg:order-2 lg:p-8">
+            <form onSubmit={handlePayment} className="space-y-4 sm:space-y-5">
+              {error && (
+                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
+                  {error}
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <label htmlFor="name" className="sr-only">Name</label>
+                <Input
+                  id="name"
+                  type="text"
+                  placeholder="Your name"
+                  value={formData.name}
+                  onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  disabled={loading}
+                  className="h-14 rounded-2xl border-slate-200 bg-slate-50 px-4 text-base shadow-sm transition placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-orange-500/30"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label htmlFor="email" className="sr-only">Email</label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Your email"
+                  value={formData.email}
+                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  disabled={loading}
+                  className="h-14 rounded-2xl border-slate-200 bg-slate-50 px-4 text-base shadow-sm transition placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-orange-500/30"
+                />
+              </div>
+
+              <Button
+                type="submit"
+                disabled={loading}
+                className="h-14 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-base font-black text-white shadow-[0_16px_40px_rgba(249,115,22,0.28)] transition hover:-translate-y-0.5 hover:from-orange-600 hover:to-amber-600 disabled:translate-y-0 disabled:opacity-70"
+              >
+                {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
+                {loading ? 'Processing' : `Pay ₹${amount}`}
+              </Button>
+
+              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
+                <div className="flex items-center gap-4">
+                  <div className="h-16 w-16 overflow-hidden rounded-2xl bg-slate-200 shadow-sm">
                     {posterUrl ? (
                       // eslint-disable-next-line @next/next/no-img-element
                       <img src={posterUrl} alt={title} className="h-full w-full object-cover" />
-                    ) : (
-                      <span className="text-2xl">🎬</span>
-                    )}
+                    ) : null}
                   </div>
-                  <div className="flex-1">
-                    <p className="font-semibold text-slate-900">{title}</p>
-                    <p className="text-sm text-slate-600">{description}</p>
-                    <ul className="text-xs text-slate-500 mt-2 space-y-1">
-                      <li className="flex items-center gap-1">
-                        <CheckCircle className="w-3 h-3" /> 40 hours of content
-                      </li>
-                      <li className="flex items-center gap-1">
-                        <CheckCircle className="w-3 h-3" /> Lifetime access
-                      </li>
-                      <li className="flex items-center gap-1">
-                        <CheckCircle className="w-3 h-3" /> Certificate
-                      </li>
-                    </ul>
+                  <div className="min-w-0 flex-1">
+                    <p className="truncate text-sm font-bold text-slate-950">{title}</p>
+                    <p className="mt-1 text-lg font-black text-slate-950">₹{amount}</p>
                   </div>
                 </div>
               </div>
 
-              <div className="space-y-3 mb-6">
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Price</span>
-                  <span className="font-semibold text-slate-900">₹{amount}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-slate-600">Tax (0%)</span>
-                  <span className="font-semibold text-slate-900">₹0</span>
-                </div>
+              <div className="flex items-center justify-center gap-2 text-xs font-medium text-slate-500">
+                <CheckCircle className="h-4 w-4 text-emerald-500" />
+                Secure payment
               </div>
-
-              <div className="border-t border-slate-200 pt-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold text-slate-900">Total</span>
-                  <span className="text-2xl font-bold text-orange-600">₹{amount}</span>
-                </div>
-              </div>
-
-              <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-sm text-green-700">✓ 30-day money-back guarantee</p>
-              </div>
-            </div>
-          </div>
+            </form>
+          </section>
         </div>
-      </div>
+      </main>
     </div>
   )
 }

@@ -31,14 +31,13 @@ export function Hero({ checkoutHref }: HeroProps) {
           {/* Right side - Content */}
           <div className="space-y-6">
             <div className="space-y-3">
-              <p className="text-orange-400 font-semibold text-sm md:text-base">Professional Video Editing</p>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                Master the Art of Video Editing
+                MASTER THE WORLD'S MOST IN-DEMAND SKILL : VIDEO EDITING
               </h1>
             </div>
 
             <p className="text-lg text-slate-300 leading-relaxed">
-              Learn professional video editing techniques, master industry-standard tools, and transform your creative vision into stunning visual content.
+              Inside The Edit is for anyone who wants to produce cinematic & emotional videos without wasting months.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">

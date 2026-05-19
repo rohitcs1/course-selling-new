@@ -62,12 +62,11 @@ export async function POST(request: NextRequest) {
     const course = orderRow?.course_id ? await getCourseById(orderRow.course_id) : null
     const courseLink = course?.drive_link || COURSE_LINK
 
-    // Send course link via email
-    const emailResult = await sendCourseLink(email, courseLink)
-
-    if (!emailResult.success) {
-      console.error('[v0] Email sending failed:', emailResult.error)
-      // Still return success for payment, but log the email failure
+    // Send course link via email without blocking the redirect path.
+    if (email) {
+      void sendCourseLink(email, courseLink).catch((sendError) => {
+        console.error('[v0] Email sending failed:', sendError)
+      })
     }
 
     return NextResponse.json({

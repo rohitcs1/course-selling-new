@@ -5,28 +5,32 @@ import { ChevronDown } from 'lucide-react'
 
 const faqs = [
   {
-    question: 'How long do I have access to the course?',
-    answer: 'You get lifetime access to all course materials. Once enrolled, you can watch and rewatch the videos anytime, anywhere. We also update the course regularly with new content and techniques.',
+    question: 'Is it a recorded course or a live course?',
+    answer: 'It’s a recorded course which will be given to you in a video format. On signup, you will create account and password using which you can watch all the modules in one go.',
   },
   {
-    question: 'Which software do I need?',
-    answer: 'The course covers industry-standard tools including Adobe Premiere Pro, After Effects, and DaVinci Resolve. We provide tutorials for all platforms and you can choose based on your preference.',
+    question: 'Can you tell me what is the duration of the course?',
+    answer: 'This course duration is 25 hours+',
   },
   {
-    question: 'Is this course suitable for beginners?',
-    answer: 'Absolutely! The course starts from the fundamentals and progressively moves to advanced techniques. Whether you\'re a complete beginner or have some experience, you\'ll find valuable content.',
+    question: 'Is this course in Hindi or English language?',
+    answer: 'This course is in Hindi language and a little bit of English.',
   },
   {
-    question: 'Do you provide project files and resources?',
-    answer: 'Yes, all project files, presets, templates, and resources used in the course are provided for download. You can use them in your projects immediately after learning the techniques.',
+    question: 'How long will You get support for your Questions?',
+    answer: 'We give lifetime support to our students so you can ask as many questions you want and we have a dedicated Facebook group also for the student, where you can ask as many questions as you like.',
   },
   {
-    question: 'What if I\'m not satisfied with the course?',
-    answer: 'We offer a 30-day money-back guarantee with no questions asked. If you\'re not happy with the course for any reason, we\'ll refund your money completely.',
+    question: 'Which software I will learn in this Course?',
+    answer: 'You’ll learn Adobe Premiere Pro which is the latest version of Adobe Premiere Pro editing software, to run Premiere Pro you need a Computer or Laptop.',
   },
   {
-    question: 'Will I get a certificate after completion?',
-    answer: 'Yes, upon completing the course and projects, you\'ll receive a professional certificate of completion that you can add to your portfolio and share on LinkedIn.',
+    question: 'Can You download the videos?',
+    answer: 'The Videos are shared in the member’s area, you cannot download them however you can watch it anytime you want – any number of times you want. All you need is a Mobile/Laptop and an Internet connection.',
+  },
+  {
+    question: 'Is there a guarantee?',
+    answer: 'Absolutely! Inside The Edit has a 7-Day Satisfaction Guarantee. If you are not completely SATISFIED and ENLIGHTENED by the Inside The Edit Course, then contact us within 7 Days for refund, no questions asked!',
   },
 ]
 
@@ -37,8 +41,7 @@ export function FAQ() {
     <section className="py-20 md:py-32 bg-gradient-to-br from-slate-950 to-slate-900">
       <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <p className="text-orange-400 font-semibold mb-2">Common Questions</p>
-          <h2 className="text-4xl md:text-5xl font-bold text-white">Frequently Asked Questions</h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white">FREQUENTLY ASKED QUESTIONS</h2>
         </div>
 
         <div className="space-y-4">
