@@ -5,7 +5,7 @@ export default function DisclaimerPage() {
     <main className="min-h-screen bg-white">
       <header className="bg-[#072045] py-12">
         <div className="mx-auto max-w-6xl px-6 text-left">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-white">Disclaimer</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white">DISCLAIMER</h1>
         </div>
       </header>
 
@@ -13,49 +13,31 @@ export default function DisclaimerPage() {
         <div className="mx-auto max-w-6xl px-6 text-left text-slate-700">
           <div className="mt-10 space-y-8 text-lg leading-8 sm:text-xl">
           <section>
+            <h2 className="mb-3 text-2xl font-extrabold text-slate-950">Disclaimers for Kabir Mehra</h2>
             <p>
-              The information on this website, https://kabirmehra.in/, is shared in good faith and
-              for general information only. Kabir Mehra does not guarantee that every detail is
-              complete, reliable, or fully accurate. Any action you take based on the information
-              here is at your own responsibility, and Kabir Mehra will not be responsible for any
-              loss or damage that may result from using this website.
+              All the information on this website - https://kabirmehra.in/ - is published in good faith and for general information purpose only. Kabir Mehra does not make any warranties about the completeness, reliability and accuracy of this information. Any action you take upon the information you find on this website (Kabir Mehra), is strictly at your own risk. Kabir Mehra will not be liable for any losses and/or damages in connection with the use of our website.
             </p>
-          </section>
 
-          <section>
-            <h2 className="mb-3 text-2xl font-extrabold text-slate-950">External Links</h2>
             <p>
-              This website may include links to third-party websites. While we try to share only
-              helpful and trustworthy links, we do not control the content, availability, or
-              practices of external sites. Including a link does not mean we endorse everything on
-              that website. Site content can change without warning, sometimes before we have a
-              chance to remove a link that no longer works or is no longer appropriate.
+              From our website, you can visit other websites by following hyperlinks to such external sites. While we strive to provide only quality links to useful and ethical websites, we have no control over the content and nature of these sites. These links to other websites do not imply a recommendation for all the content found on these sites. Site owners and content may change without notice and may occur before we have the opportunity to remove a link which may have gone 'bad'.
             </p>
-          </section>
 
-          <section>
-            <h2 className="mb-3 text-2xl font-extrabold text-slate-950">Privacy and Terms on Other Sites</h2>
             <p>
-              Once you leave our website, the destination site may apply its own privacy policy and
-              terms of service. Those rules are outside our control, so we recommend reviewing the
-              privacy policy and terms of any external website before sharing information or
-              starting any business transaction there.
+              Please be also aware that when you leave our website, other sites may have different privacy policies and terms which are beyond our control. Please be sure to check the Privacy Policies of these sites as well as their "Terms of Service" before engaging in any business or uploading any information.
             </p>
           </section>
 
           <section>
             <h2 className="mb-3 text-2xl font-extrabold text-slate-950">Consent</h2>
             <p>
-              By using this website, you acknowledge that you have read this disclaimer and agree
-              to its terms.
+              By using our website, you hereby consent to our disclaimer and agree to its terms.
             </p>
           </section>
 
           <section>
-            <h2 className="mb-3 text-2xl font-extrabold text-slate-950">Updates</h2>
+            <h2 className="mb-3 text-2xl font-extrabold text-slate-950">Update</h2>
             <p>
-              If we revise, expand, or change this document in the future, the updated version will
-              be posted here prominently.
+              Should we update, amend or make any changes to this document, those changes will be prominently posted here.
             </p>
           </section>
 
