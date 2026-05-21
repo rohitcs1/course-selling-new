@@ -12,15 +12,15 @@ export default function PrivacyPage() {
       <section className="py-12">
         <div className="mx-auto max-w-6xl px-6 text-left text-slate-900">
             <p>
-              At Kabir Mehra, accessible from https://course.elneb.in/, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by Kabir Mehra and how we use it.
+              At ELNEB EdTech, accessible from https://course.elneb.in/, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by ELNEB EdTech and how we use it.
             </p>
 
             <p>
-               if you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
+               If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us.
             </p>
 
             <p>
-                This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in Kabir Mehra. This policy is not applicable to any information collected offline or via channels other than this website.
+                This Privacy Policy applies only to our online activities and is valid for visitors to our website with regards to the information that they shared and/or collect in ELNEB EdTech. This policy is not applicable to any information collected offline or via channels other than this website.
             </p>
             
           <section className="mb-6 text-left">
@@ -63,7 +63,7 @@ export default function PrivacyPage() {
       <section className="mb-6">
         <h2 className="text-xl font-bold mb-2">Log Files</h2>
         <p>
-          Kabir Mehra follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics. The information collected by log files include internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.
+          ELNEB EdTech follows a standard procedure of using log files. These files log visitors when they visit websites. All hosting companies do this and a part of hosting services' analytics. The information collected by log files include internet protocol (IP) addresses, browser type, Internet Service Provider (ISP), date and time stamp, referring/exit pages, and possibly the number of clicks. These are not linked to any information that is personally identifiable. The purpose of the information is for analyzing trends, administering the site, tracking users' movement on the website, and gathering demographic information.
         </p>
       </section>
 
@@ -79,29 +79,29 @@ export default function PrivacyPage() {
       <section className="mb-6">
         <h2 className="text-xl font-bold mb-2">Cookies and Web Beacons</h2>
         <p>
-          Like any other website, Kabir Mehra uses "cookies". These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
+          Like any other website, ELNEB EdTech uses "cookies". These cookies are used to store information including visitors' preferences, and the pages on the website that the visitor accessed or visited. The information is used to optimize the users' experience by customizing our web page content based on visitors' browser type and/or other information.
         </p>
       </section>
 
       <section className="mb-6">
         <h2 className="text-xl font-bold mb-2">Advertising Partners Privacy Policies</h2>
         <p>
-          You may consult this list to find the Privacy Policy for each of the advertising partners of Kabir Mehra.
+          You may consult this list to find the Privacy Policy for each of the advertising partners of ELNEB EdTech.
         </p>
 
         <p>
-          Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on Kabir Mehra, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.
+          Third-party ad servers or ad networks uses technologies like cookies, JavaScript, or Web Beacons that are used in their respective advertisements and links that appear on ELNEB EdTech, which are sent directly to users' browser. They automatically receive your IP address when this occurs. These technologies are used to measure the effectiveness of their advertising campaigns and/or to personalize the advertising content that you see on websites that you visit.
         </p>
 
         <p> 
-          Note that Kabir Mehra has no access to or control over these cookies that are used by third-party advertisers.
+          Note that ELNEB EdTech has no access to or control over these cookies that are used by third-party advertisers.
         </p>
       </section>
 
       <section className="mb-6">
         <h2 className="text-xl font-bold mb-2">Third Party Privacy Policies</h2>
         <p>
-          Kabir Mehra's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options.
+          ELNEB EdTech's Privacy Policy does not apply to other advertisers or websites. Thus, we are advising you to consult the respective Privacy Policies of these third-party ad servers for more detailed information. It may include their practices and instructions about how to opt-out of certain options.
         </p>
 
         <p>
@@ -173,7 +173,7 @@ export default function PrivacyPage() {
         </p>
 
         <p>
-          Kabir Mehra does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.
+          ELNEB EdTech does not knowingly collect any Personal Identifiable Information from children under the age of 13. If you think that your child provided this kind of information on our website, we strongly encourage you to contact us immediately and we will do our best efforts to promptly remove such information from our records.
         </p>
       </section>
 
@@ -193,7 +193,7 @@ export default function PrivacyPage() {
 
       <footer className="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-700 text-center">
         <div className="mb-2">
-          <a href="/terms" className="hover:underline mr-2">Term of Service</a>
+          <a href="/terms" className="hover:underline mr-2">Terms of Service</a>
           <span className="px-2">|</span>
           <a href="/privacy" className="hover:underline mx-2">Privacy Policy</a>
           <span className="px-2">|</span>
@@ -203,7 +203,7 @@ export default function PrivacyPage() {
           <span className="px-2">|</span>
           <a href="/disclaimer" className="hover:underline ml-2">Disclaimer</a>
         </div>
-        <div>Copyright 2026 - ELNEB - All Rights Reserved</div>
+        <div>Copyright © 2026 - ELNEB EdTech - All Rights Reserved</div>
       </footer>
     </main>
   )

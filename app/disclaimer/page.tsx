@@ -13,9 +13,9 @@ export default function DisclaimerPage() {
         <div className="mx-auto max-w-6xl px-6 text-left text-slate-700">
           <div className="mt-10 space-y-8 text-lg leading-8 sm:text-xl">
           <section>
-            <h2 className="mb-3 text-2xl font-extrabold text-slate-950">Disclaimers for Kabir Mehra</h2>
+            <h2 className="mb-3 text-2xl font-extrabold text-slate-950">Disclaimer for ELNEB EdTech</h2>
             <p>
-              All the information on this website - https://kabirmehra.in/ - is published in good faith and for general information purpose only. Kabir Mehra does not make any warranties about the completeness, reliability and accuracy of this information. Any action you take upon the information you find on this website (Kabir Mehra), is strictly at your own risk. Kabir Mehra will not be liable for any losses and/or damages in connection with the use of our website.
+              All the information on this website - https://course.elneb.in/ - is published in good faith and for general information purpose only. ELNEB EdTech does not make any warranties about the completeness, reliability and accuracy of this information. Any action you take upon the information you find on this website (ELNEB EdTech), is strictly at your own risk. ELNEB EdTech will not be liable for any losses and/or damages in connection with the use of our website.
             </p>
 
             <p>
@@ -71,7 +71,7 @@ export default function DisclaimerPage() {
             <a href="/disclaimer" className="hover:text-slate-950 transition-colors">Disclaimer</a>
           </div>
           <div className="mt-2 text-sm font-medium text-slate-500 sm:text-base">
-            Copyright 2024 - Kabir Mehra - All Rights Reserved
+            Copyright © 2026 - ELNEB EdTech - All Rights Reserved
           </div>
         </footer>
     </main>
