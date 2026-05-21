@@ -30,19 +30,15 @@ type PricingProps = {
 }
 
 export function Pricing({ checkoutHref, currentPrice = 299, originalPrice = 1499 }: PricingProps) {
-  const [timeLeft, setTimeLeft] = useState({ minutes: 0, seconds: 0 })
+  // Start a fixed 25-minute countdown when the component mounts
+  const INITIAL_SECONDS = 25 * 60
+  const [secondsLeft, setSecondsLeft] = useState<number>(INITIAL_SECONDS)
+  const minutesLeft = Math.floor(secondsLeft / 60)
+  const remainingSeconds = secondsLeft % 60
 
   useEffect(() => {
     const timer = setInterval(() => {
-      const now = new Date()
-      const endOfDay = new Date(now)
-      endOfDay.setHours(23, 59, 59, 999)
-
-      const diff = Math.max(0, endOfDay.getTime() - now.getTime())
-      const minutes = Math.floor(diff / (1000 * 60))
-      const seconds = Math.floor((diff % (1000 * 60)) / 1000)
-
-      setTimeLeft({ minutes, seconds })
+      setSecondsLeft((s) => Math.max(0, s - 1))
     }, 1000)
 
     return () => clearInterval(timer)
@@ -90,7 +86,7 @@ export function Pricing({ checkoutHref, currentPrice = 299, originalPrice = 1499
             Only ₹{originalPrice.toLocaleString('en-IN')}
           </p>
           <p className="mt-2 text-5xl font-black leading-none tracking-tight text-blue-600 md:text-6xl">
-            Now ₹{currentPrice}/-
+            <a href={checkoutHref} className="inline-block hover:underline">Now ₹{currentPrice}/-</a>
           </p>
           <p className="mt-2 text-xs font-semibold uppercase tracking-[0.28em] text-red-500">For limited time</p>
 
@@ -98,17 +94,17 @@ export function Pricing({ checkoutHref, currentPrice = 299, originalPrice = 1499
             <p className="text-sm font-semibold text-slate-700">Offer will expire in...</p>
             <div className="mt-2 flex items-center gap-2 rounded-xl bg-white px-4 py-2 shadow-inner shadow-slate-200">
               <Clock className="h-4 w-4 text-blue-600" />
-              <span className="text-2xl font-black text-blue-600">{String(timeLeft.minutes).padStart(2, '0')}</span>
+              <span className="text-2xl font-black text-blue-600">{String(minutesLeft).padStart(2, '0')}</span>
               <span className="text-sm font-semibold text-slate-400">m</span>
               <span className="text-2xl font-black text-blue-600">:</span>
-              <span className="text-2xl font-black text-blue-600">{String(timeLeft.seconds).padStart(2, '0')}</span>
+              <span className="text-2xl font-black text-blue-600">{String(remainingSeconds).padStart(2, '0')}</span>
               <span className="text-sm font-semibold text-slate-400">s</span>
             </div>
           </div>
 
           <Link
             href={checkoutHref}
-            className="mt-10 inline-flex min-h-[66px] w-full items-center justify-center rounded-2xl border border-yellow-300 bg-gradient-to-b from-yellow-300 via-yellow-400 to-yellow-500 px-6 py-4 text-xl font-black uppercase tracking-wide text-black shadow-[0_10px_30px_rgba(234,179,8,0.35)] transition hover:-translate-y-0.5 hover:from-yellow-200 hover:via-yellow-300 hover:to-yellow-400 sm:w-[460px]"
+            className="mt-10 inline-flex min-h-[66px] w-full items-center justify-center rounded-2xl bg-yellow-400 px-6 py-4 text-xl font-black uppercase tracking-wide text-black shadow-[0_10px_30px_rgba(234,179,8,0.35)] transition hover:-translate-y-0.5 sm:w-[460px]"
           >
             Apply Now
           </Link>

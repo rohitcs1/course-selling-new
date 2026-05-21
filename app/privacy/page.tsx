@@ -103,6 +103,20 @@ export default function PrivacyPage() {
         <h2 className="text-xl font-bold mb-2">Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, contact us at rasoiroom31@gmail.com.</p>
       </section>
+      <footer className="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-700">
+        <div className="mb-2">
+          <a href="/terms" className="hover:underline mr-2">Term of Service</a>
+          <span className="px-2">|</span>
+          <a href="/privacy" className="hover:underline mx-2">Privacy Policy</a>
+          <span className="px-2">|</span>
+          <a href="/contact" className="hover:underline mx-2">Contact Us</a>
+          <span className="px-2">|</span>
+          <a href="/refund-policy" className="hover:underline mx-2">Refund Policy</a>
+          <span className="px-2">|</span>
+          <a href="/disclaimer" className="hover:underline ml-2">Disclaimer</a>
+        </div>
+        <div>Copyright 2024 - Kabir Mehra - All Rights Reserved</div>
+      </footer>
     </main>
   )
 }

@@ -96,7 +96,11 @@ export default function RefundPolicyPage() {
             <span className="px-2 text-slate-400">|</span>
             <a href="/privacy" className="hover:text-slate-950 transition-colors">Privacy Policy</a>
             <span className="px-2 text-slate-400">|</span>
+            <a href="/contact" className="hover:text-slate-950 transition-colors">Contact Us</a>
+            <span className="px-2 text-slate-400">|</span>
             <a href="#refund-policy" className="hover:text-slate-950 transition-colors">Refund Policy</a>
+            <span className="px-2 text-slate-400">|</span>
+            <a href="/disclaimer" className="hover:text-slate-950 transition-colors">Disclaimer</a>
           </div>
           <div className="mt-2 text-sm font-medium text-slate-500 sm:text-base">
             Copyright © 2026 - ELNEB - All Rights Reserved

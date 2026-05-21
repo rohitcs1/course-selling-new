@@ -67,9 +67,9 @@ export default async function Home() {
               <div className="text-sm"> 
                 <a href="/terms" className="hover:text-orange-400 transition-colors mr-4">Terms of Service |</a>
                 <a href="/privacy" className="hover:text-orange-400 transition-colors mr-4">Privacy Policy |</a>
-                <a href="#" className="hover:text-orange-400 transition-colors mr-4">Contact Us |</a>
+                <a href="/contact" className="hover:text-orange-400 transition-colors mr-4">Contact Us |</a>
                 <a href="/refund-policy" className="hover:text-orange-400 transition-colors mr-4">Refund Policy |</a>
-                <a href="#" className="hover:text-orange-400 transition-colors">Disclaimer</a>
+                <a href="/disclaimer" className="hover:text-orange-400 transition-colors">Disclaimer</a>
               </div>
               <div className="text-sm">
                 <p>&copy; 2026 - <a href="https://elneb.in" target="_blank" rel="noreferrer" className="font-semibold text-white hover:text-orange-400">ELNEB</a> - All Rights Reserved</p>
