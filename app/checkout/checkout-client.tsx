@@ -36,6 +36,31 @@ type CheckoutClientProps = {
   courseId: string | null
 }
 
+function getRenderableImageUrl(url: string | null | undefined) {
+  if (!url) return ''
+
+  try {
+    const parsedUrl = new URL(url)
+    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
+      return ''
+    }
+
+    const hostname = parsedUrl.hostname.toLowerCase()
+    if (
+      hostname === 'localhost' ||
+      hostname === '127.0.0.1' ||
+      hostname === '0.0.0.0' ||
+      hostname.endsWith('.local')
+    ) {
+      return ''
+    }
+
+    return url
+  } catch {
+    return ''
+  }
+}
+
 export default function CheckoutClient({ courseId }: CheckoutClientProps) {
   const router = useRouter()
 
@@ -75,7 +100,7 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
   const amount = course?.price ?? DEFAULT_COURSE.price
   const title = course?.title ?? DEFAULT_COURSE.title
   const description = course?.description ?? DEFAULT_COURSE.description
-  const posterUrl = course?.poster_url ?? DEFAULT_COURSE.poster_url
+  const posterUrl = getRenderableImageUrl(course?.poster_url) || DEFAULT_COURSE.poster_url
 
   const loadRazorpayScript = (): Promise<boolean> => {
     return new Promise((resolve) => {

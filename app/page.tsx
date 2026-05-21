@@ -7,13 +7,14 @@ import { Pricing } from '@/components/pricing'
 import { ScrollUiProvider } from '@/components/scroll-ui-provider'
 import { ScrollHeader } from '@/components/scroll-header'
 import { FloatingCta } from '@/components/floating-cta'
-import { Mail } from 'lucide-react'
+import { ContactForm } from '@/components/contact-form'
 import { getPublicCourses } from '@/lib/courses'
 
 export default async function Home() {
   const courses = await getPublicCourses()
   const featuredCourse = courses[0]
   const checkoutHref = featuredCourse ? `/checkout?courseId=${featuredCourse.id}` : '/checkout'
+  const supportEmail = 'rasoiroom31@gmail.com'
 
   return (
     <main>
@@ -57,41 +58,7 @@ export default async function Home() {
 
             <div>
               <h3 className="font-semibold text-white mb-4">Contact Us</h3>
-              <form
-                action="mailto:rasoiroom31@gmail.com"
-                method="post"
-                encType="text/plain"
-                className="grid gap-3 rounded-2xl border border-slate-700 bg-slate-950/40 p-4"
-              >
-                <input
-                  name="name"
-                  type="text"
-                  placeholder="Your name"
-                  className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-orange-500"
-                  required
-                />
-                <input
-                  name="email"
-                  type="email"
-                  placeholder="Your email"
-                  className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-orange-500"
-                  required
-                />
-                <textarea
-                  name="problem"
-                  placeholder="Describe your problem"
-                  rows={4}
-                  className="rounded-lg border border-slate-700 bg-slate-900 px-4 py-3 text-sm text-white placeholder:text-slate-500 outline-none focus:border-orange-500"
-                  required
-                />
-                <button
-                  type="submit"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-orange-500 px-4 py-3 font-semibold text-white hover:bg-orange-600 transition-colors"
-                >
-                  <Mail className="h-4 w-4" />
-                  Submit
-                </button>
-              </form>
+              <ContactForm supportEmail={supportEmail} />
             </div>
           </div>
 

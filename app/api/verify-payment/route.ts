@@ -37,6 +37,8 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let orderUpdateWarning: string | null = null
+
     // Update order in database using the service role key so RLS does not block server writes
     const { status, data } = await supabaseRequest(
       'PATCH',
@@ -52,10 +54,7 @@ export async function POST(request: NextRequest) {
 
     if (status >= 400) {
       console.error('[v0] Database error:', data)
-      return NextResponse.json(
-        { error: 'Failed to update order' },
-        { status: 500 }
-      )
+      orderUpdateWarning = 'Order verification succeeded, but order persistence failed.'
     }
 
     const orderRow = Array.isArray(data) ? data[0] : null
@@ -74,6 +73,7 @@ export async function POST(request: NextRequest) {
       message: 'Payment verified successfully',
       data,
       courseLink,
+      ...(orderUpdateWarning ? { warning: orderUpdateWarning } : {}),
     })
   } catch (error) {
     console.error('[v0] Payment verification error:', error)
