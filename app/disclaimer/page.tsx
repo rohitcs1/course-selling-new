@@ -2,13 +2,16 @@ import React from 'react'
 
 export default function DisclaimerPage() {
   return (
-    <main className="min-h-screen w-full bg-white px-4 py-8 sm:px-6 lg:px-10 lg:py-12">
-      <div className="mx-auto w-full max-w-5xl">
-        <h1 className="text-4xl font-black tracking-tight text-slate-950 sm:text-5xl lg:text-6xl">
-          Disclaimer
-        </h1>
+    <main className="min-h-screen bg-white">
+      <header className="bg-[#072045] py-12">
+        <div className="mx-auto max-w-6xl px-6 text-left">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white">Disclaimer</h1>
+        </div>
+      </header>
 
-        <div className="mt-10 space-y-8 text-lg leading-8 text-slate-700 sm:text-xl">
+      <section className="py-12">
+        <div className="mx-auto max-w-6xl px-6 text-left text-slate-700">
+          <div className="mt-10 space-y-8 text-lg leading-8 sm:text-xl">
           <section>
             <p>
               The information on this website, https://kabirmehra.in/, is shared in good faith and
@@ -73,9 +76,11 @@ export default function DisclaimerPage() {
               </a>
             </p>
           </section>
+          </div>
         </div>
+      </section>
 
-        <footer className="mt-12 border-t border-slate-200 py-6 text-center">
+      <footer className="mt-12 border-t border-slate-200 py-6 text-center">
           <div className="text-sm font-semibold text-slate-700 sm:text-base">
             <a href="/terms" className="hover:text-slate-950 transition-colors">Term of Service</a>
             <span className="px-2 text-slate-400">|</span>
@@ -87,7 +92,6 @@ export default function DisclaimerPage() {
             Copyright 2024 - Kabir Mehra - All Rights Reserved
           </div>
         </footer>
-      </div>
     </main>
   )
 }

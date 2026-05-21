@@ -1,8 +1,15 @@
 export default function TermsPage() {
 	return (
-		<main className="mx-auto max-w-4xl px-6 py-16 text-slate-900">
-			<h1 className="mb-6 text-3xl font-extrabold">TERM OF SERVICE</h1>
-			<h2 className="mb-8 text-2xl font-bold">Website Terms and Conditions of Use</h2>
+		<main className="min-h-screen bg-white">
+			<header className="bg-[#072045] py-12">
+				<div className="mx-auto max-w-6xl px-6 text-left">
+					<h1 className="text-4xl md:text-5xl font-extrabold text-white">Terms of Service</h1>
+				</div>
+			</header>
+
+			<section className="py-12">
+				<div className="mx-auto max-w-6xl px-6 text-left text-slate-900">
+					<h2 className="mb-6 text-2xl font-bold">Website Terms and Conditions of Use</h2>
 
 			<section className="space-y-6 text-base leading-8">
 				<div>
@@ -76,8 +83,10 @@ export default function TermsPage() {
 					</p>
 				</div>
 			</section>
+		</div>
+	</section>
 
-			<footer className="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-700">
+			<footer className="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-700 text-center">
 				<div className="mb-2">Term of Service | Privacy Policy | Disclaimer</div>
 				<div>Copyright 2024 - Kabir Mehra - All Rights Reserved</div>
 			</footer>

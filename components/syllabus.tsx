@@ -16,10 +16,10 @@ const reviews = [
       '"Inside the edit course is a game-changer! From basics to advanced skills, it been an incredible journey. Clear instruction and expert guidance have transformed my editing abilities. Highly recommended" - Rakesh',
   },
   {
-    name: 'Vaibhavi S.',
+    name: 'Valbhavi S.',
     rating: 5,
     description:
-      '"Each and every thing is covered for video editing in a structured format and you can start editing for clients right after completing the course." - Vaibhavi S.',
+      '"Each and every thing is covered for video editing in a structured format and you can start editing for clients right after completing the course." - Valbhavi S.',
   },
 ]
 
@@ -27,19 +27,16 @@ const modules = [
   {
     icon: Film,
     title: 'Fundamentals of Video Editing',
-    description: 'Start from the basics and build a strong foundation in editing workflows.',
     topics: ['Color Correction', 'Cinematic Color Grading', 'Wedding Invitation Editing', 'Animated Title Making', 'Ultimate Effect Making', 'Ai Video Creation & Editing'],
   },
   {
     icon: Film,
     title: 'Advanced Effects & Transitions',
-    description: 'Learn the techniques that make your edits look polished, professional, and dynamic.',
     topics: ['Multi-Cam Editing', 'Green Screen Editing', 'YouTube Editing', 'Color Conversion Effect', 'Advertisement Editing', 'Ai Video Avatar Creation'],
   },
   {
     icon: Zap,
     title: 'Real-World Projects',
-    description: 'Apply everything you learn with hands-on projects that mirror client work.',
     topics: ['Music videos', 'Cinematic edits', 'YouTube content', 'Corporate videos'],
   },
 ]

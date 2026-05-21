@@ -2,19 +2,25 @@ import React from 'react'
 
 export default function PrivacyPage() {
   return (
-    <main className="max-w-4xl mx-auto py-16 px-6">
-      <h1 className="text-3xl font-extrabold text-black mb-6">Privacy Policy</h1>
+    <main className="min-h-screen bg-white">
+      <header className="bg-[#072045] py-12">
+        <div className="mx-auto max-w-6xl px-6 text-left">
+          <h1 className="text-4xl md:text-5xl font-extrabold text-white">Privacy Policy</h1>
+        </div>
+      </header>
 
-      <p className="mb-4">Last updated: 18 May 2026</p>
+      <section className="py-12">
+        <div className="mx-auto max-w-6xl px-6 text-left text-slate-900">
+          <p className="mb-4">Last updated: 18 May 2026</p>
 
-      <section className="mb-6">
-        <h2 className="text-xl font-bold mb-2">Introduction</h2>
-        <p>
-          Elneb EdTech ("we", "us", "our") respects your privacy and is committed to
-          protecting your personal data. This Privacy Policy explains how we collect, use,
-          disclose, and safeguard your information when you visit our website.
-        </p>
-      </section>
+          <section className="mb-6 text-left">
+            <h2 className="text-xl font-bold mb-2">Introduction</h2>
+            <p>
+              Elneb EdTech ("we", "us", "our") respects your privacy and is committed to
+              protecting your personal data. This Privacy Policy explains how we collect, use,
+              disclose, and safeguard your information when you visit our website.
+            </p>
+          </section>
 
       <section className="mb-6">
         <h2 className="text-xl font-bold mb-2">Information We Collect</h2>
@@ -103,7 +109,10 @@ export default function PrivacyPage() {
         <h2 className="text-xl font-bold mb-2">Contact Us</h2>
         <p>If you have any questions about this Privacy Policy, contact us at rasoiroom31@gmail.com.</p>
       </section>
-      <footer className="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-700">
+        </div>
+      </section>
+
+      <footer className="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-700 text-center">
         <div className="mb-2">
           <a href="/terms" className="hover:underline mr-2">Term of Service</a>
           <span className="px-2">|</span>

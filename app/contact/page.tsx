@@ -20,25 +20,25 @@ export default function ContactPage() {
               <div className="flex h-36 w-36 items-center justify-center rounded-full bg-black text-white shadow-lg">
                 <MessageSquare className="h-20 w-20" />
               </div>
-              <h3 className="mt-6 text-lg font-semibold">Whatsapp us at +91 8700936219</h3>
+              <h3 className="mt-6 text-lg font-semibold">Whatsapp us at +91 7250939051</h3>
             </div>
 
             <div className="flex flex-col items-center">
               <div className="flex h-36 w-36 items-center justify-center rounded-full bg-black text-white shadow-lg">
                 <Mail className="h-20 w-20" />
               </div>
-              <h3 className="mt-6 text-lg font-semibold">Email us at Hello@kabirmehra.in</h3>
+              <h3 className="mt-6 text-lg font-semibold">Email us at rasoiroom31@gmail.com</h3>
             </div>
 
             <div className="flex flex-col items-center">
               <div className="flex h-36 w-36 items-center justify-center rounded-full bg-black text-white shadow-lg">
                 <Phone className="h-20 w-20" />
               </div>
-              <h3 className="mt-6 text-lg font-semibold">Call us at +91 8700936219</h3>
+              <h3 className="mt-6 text-lg font-semibold">Call us at +91 7250939051</h3>
             </div>
           </div>
 
-          <p className="mt-10 text-slate-700">Address: C-4/444, SULTAN PURI, NEW DELHI, North West Delhi, Delhi, 110086</p>
+          <p className="mt-10 text-slate-700">Address:Bankey Bazar, Sherghati, Gaya, Bihar, 824217</p>
         </div>
       </section>
 
@@ -55,7 +55,7 @@ export default function ContactPage() {
             |
             <a href="/disclaimer" className="mx-2 hover:underline">Disclaimer</a>
           </div>
-          <div className="text-xs text-slate-500">Copyright 2024 - Kabir Mehra - All Rights Reserved</div>
+          <div className="text-xs text-slate-500">Copyright 2026 - ELNEB - All Rights Reserved</div>
         </div>
       </footer>
     </main>
