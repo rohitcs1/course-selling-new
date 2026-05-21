@@ -44,9 +44,9 @@ export function FloatingCta({ price, enrollHref }: FloatingCtaProps) {
             tabIndex={headerHidden ? 0 : -1}
             className={[
               'inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 font-semibold shadow-sm transition-all duration-300 sm:w-auto sm:min-w-[220px] sm:px-6 sm:py-3',
-              headerHidden
-                ? 'bg-slate-950 text-white hover:-translate-y-0.5 hover:bg-slate-800'
-                : 'cursor-not-allowed bg-slate-300 text-slate-500',
+                  headerHidden
+                    ? 'bg-gradient-to-b from-yellow-300 via-yellow-400 to-yellow-500 text-black shadow-[0_10px_30px_rgba(234,179,8,0.35)] hover:-translate-y-0.5 hover:from-yellow-200 hover:via-yellow-300 hover:to-yellow-400'
+                    : 'cursor-not-allowed bg-slate-300 text-slate-500',
             ].join(' ')}
           >
             Apply Now
