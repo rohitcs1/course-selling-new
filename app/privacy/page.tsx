@@ -203,7 +203,7 @@ export default function PrivacyPage() {
           <span className="px-2">|</span>
           <a href="/disclaimer" className="hover:underline ml-2">Disclaimer</a>
         </div>
-        <div className="relative bottom-8">Copyright © 2026 - ELNEB EdTech - All Rights Reserved</div>
+        <div className="mt-3">Copyright © 2026 - ELNEB EdTech - All Rights Reserved</div>
       </footer>
     </main>
   )

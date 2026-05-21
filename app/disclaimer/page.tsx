@@ -70,7 +70,7 @@ export default function DisclaimerPage() {
             <span className="px-2 text-slate-400">|</span>
             <a href="/disclaimer" className="hover:text-slate-950 transition-colors">Disclaimer</a>
           </div>
-          <div className="mt-2 text-sm font-medium text-slate-500 sm:text-base relative bottom-8">
+          <div className="mt-3 text-sm font-medium text-slate-500 sm:text-base">
             Copyright © 2026 - ELNEB EdTech - All Rights Reserved
           </div>
         </footer>

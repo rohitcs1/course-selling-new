@@ -87,8 +87,8 @@ export default function TermsPage() {
 	</section>
 
 			<footer className="mt-12 border-t border-slate-200 pt-6 text-sm text-slate-700 text-center">
-				<div className="mb-2">TERMS OF SERVICE | Privacy Policy | Disclaimer</div>
-				<div className="relative bottom-8">Copyright © 2026 - ELNEB EdTech - All Rights Reserved</div>
+				<div className="mb-3">TERMS OF SERVICE | Privacy Policy | Disclaimer</div>
+				<div>Copyright © 2026 - ELNEB EdTech - All Rights Reserved</div>
 			</footer>
 		</main>
 	)
