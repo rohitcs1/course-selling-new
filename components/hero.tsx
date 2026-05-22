@@ -14,18 +14,20 @@ export function Hero({ checkoutHref }: HeroProps) {
         <div className="grid gap-12 md:grid-cols-2 md:gap-8 items-center">
           {/* Left side - Video placeholder */}
           <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-2xl">
-            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-purple-500/20 flex items-center justify-center">
-              <div className="text-center">
-                <div className="relative inline-block">
-                  <PlayCircle className="w-24 h-24 text-white drop-shadow-lg" />
-                </div>
-              </div>
-            </div>
-            <img 
-              src="https://images.unsplash.com/photo-1598899134739-24c46f58b8c0?w=800&h=600&fit=crop" 
-              alt="Video editing course" 
-              className="w-full h-full object-cover opacity-40"
+            <video
+              className="absolute inset-0 h-full w-full object-cover"
+              src="https://kabirmehra.in/wp-content/uploads/2024/06/RAMPAGE-trailer-for-international-course_1-1.mp4"
+              autoPlay
+              controls
+              loop
+              muted
+              playsInline
+              preload="metadata"
             />
+            <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-purple-500/20 pointer-events-none" />
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <PlayCircle className="w-24 h-24 text-white drop-shadow-lg opacity-80" />
+            </div>
           </div>
 
           {/* Right side - Content */}
