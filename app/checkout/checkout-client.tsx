@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { ArrowLeft, CheckCircle, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { normalizePublicUrl } from '@/lib/public-url'
 
 const DEFAULT_COURSE = {
   id: '',
@@ -37,28 +38,7 @@ type CheckoutClientProps = {
 }
 
 function getRenderableImageUrl(url: string | null | undefined) {
-  if (!url) return ''
-
-  try {
-    const parsedUrl = new URL(url)
-    if (parsedUrl.protocol !== 'http:' && parsedUrl.protocol !== 'https:') {
-      return ''
-    }
-
-    const hostname = parsedUrl.hostname.toLowerCase()
-    if (
-      hostname === 'localhost' ||
-      hostname === '127.0.0.1' ||
-      hostname === '0.0.0.0' ||
-      hostname.endsWith('.local')
-    ) {
-      return ''
-    }
-
-    return url
-  } catch {
-    return ''
-  }
+  return normalizePublicUrl(url)
 }
 
 export default function CheckoutClient({ courseId }: CheckoutClientProps) {
