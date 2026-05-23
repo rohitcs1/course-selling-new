@@ -1,13 +1,34 @@
 'use client'
 
+import { useEffect, useRef } from 'react'
 import Link from 'next/link'
-import { PlayCircle } from 'lucide-react'
 
 type HeroProps = {
   checkoutHref: string
 }
 
 export function Hero({ checkoutHref }: HeroProps) {
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+
+  useEffect(() => {
+    const video = videoRef.current
+
+    if (!video) {
+      return
+    }
+
+    const startPlayback = () => {
+      void video.play().catch(() => {})
+    }
+
+    startPlayback()
+    video.addEventListener('loadedmetadata', startPlayback)
+
+    return () => {
+      video.removeEventListener('loadedmetadata', startPlayback)
+    }
+  }, [])
+
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-20 md:py-32 lg:py-40">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -15,6 +36,7 @@ export function Hero({ checkoutHref }: HeroProps) {
           {/* Left side - Video placeholder */}
           <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-2xl">
             <video
+              ref={videoRef}
               className="absolute inset-0 h-full w-full object-cover"
               src="https://kabirmehra.in/wp-content/uploads/2024/06/RAMPAGE-trailer-for-international-course_1-1.mp4"
               autoPlay
@@ -25,9 +47,6 @@ export function Hero({ checkoutHref }: HeroProps) {
               preload="metadata"
             />
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-purple-500/20 pointer-events-none" />
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <PlayCircle className="w-24 h-24 text-white drop-shadow-lg opacity-80" />
-            </div>
           </div>
 
           {/* Right side - Content */}
