@@ -3,9 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { ArrowLeft, CheckCircle, Loader2 } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+import { Loader2 } from 'lucide-react'
 import { normalizePublicUrl } from '@/lib/public-url'
 
 const DEFAULT_COURSE = {
@@ -47,6 +45,7 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
   })
   const [course, setCourse] = useState<Course | null>(null)
   const [courseLoading, setCourseLoading] = useState(false)
@@ -79,7 +78,6 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
 
   const amount = course?.price ?? DEFAULT_COURSE.price
   const title = course?.title ?? DEFAULT_COURSE.title
-  const description = course?.description ?? DEFAULT_COURSE.description
   const posterUrl = getRenderableImageUrl(course?.poster_url) || DEFAULT_COURSE.poster_url
 
   const loadRazorpayScript = (): Promise<boolean> => {
@@ -122,6 +120,7 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: formData.email,
+          phone: formData.phone,
           amount,
           currency: 'INR',
           courseId: course?.id || null,
@@ -148,6 +147,7 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
         prefill: {
           name: formData.name,
           email: formData.email,
+          contact: formData.phone,
         },
         theme: {
           color: '#f97316',
@@ -162,6 +162,7 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
                 email: formData.email,
+                phone: formData.phone,
               }),
             })
 
@@ -198,135 +199,115 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
   }
 
   return (
-    <div className="relative min-h-screen overflow-hidden bg-[radial-gradient(circle_at_top,rgba(249,115,22,0.14),transparent_30%),linear-gradient(180deg,#fff7ed_0%,#ffffff_45%,#f8fafc_100%)]">
-      <div className="pointer-events-none absolute inset-0 overflow-hidden">
-        <div className="absolute -left-16 top-20 h-56 w-56 rounded-full bg-orange-400/15 blur-3xl animate-pulse" />
-        <div className="absolute right-0 top-1/3 h-72 w-72 rounded-full bg-sky-400/10 blur-3xl animate-pulse [animation-delay:1s]" />
-      </div>
-
-      <header className="relative z-10 px-4 pt-4 sm:px-6 lg:px-8">
-        <Link href="/" aria-label="Back" className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/80 bg-white/90 text-slate-700 shadow-lg shadow-slate-900/5 backdrop-blur transition hover:-translate-y-0.5 hover:text-slate-950">
-          <ArrowLeft className="h-5 w-5" />
-        </Link>
-      </header>
-
-      <main className="relative z-10 mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl items-center px-4 py-6 sm:px-6 lg:px-8">
-        <div className="grid w-full gap-6 lg:grid-cols-[1.05fr_0.95fr] lg:gap-8">
-          <section className="order-2 overflow-hidden rounded-[2rem] border border-white/90 bg-white/90 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-xl sm:p-6 lg:order-1 lg:p-8">
-            <div className="overflow-hidden rounded-[1.5rem] border border-slate-100 bg-slate-50 shadow-inner">
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-100">
-                {posterUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img src={posterUrl} alt={title} className="h-full w-full object-cover transition duration-500 hover:scale-105" />
-                ) : (
-                  <div className="flex h-full items-center justify-center bg-gradient-to-br from-orange-500 to-amber-500">
-                    <span className="text-6xl">🎬</span>
-                  </div>
-                )}
-              </div>
-
-              <div className="flex items-center justify-between gap-4 border-t border-slate-100 bg-white px-4 py-4 sm:px-5">
-                <h1 className="min-w-0 truncate text-lg font-black text-slate-950 sm:text-2xl">{title}</h1>
-                <div className="shrink-0 rounded-full bg-slate-950 px-4 py-2 text-base font-black text-white sm:text-lg">
-                  ₹{amount}
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4 space-y-4 rounded-[1.5rem] border border-slate-100 bg-white p-4 shadow-sm sm:p-5 lg:mt-5">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-orange-600">Course details</p>
-                  <h2 className="mt-1 text-xl font-black text-slate-950 sm:text-2xl">Everything included in this course</h2>
-                </div>
-                <div className="rounded-full bg-orange-50 px-3 py-1.5 text-sm font-black text-orange-600">
-                  ₹{amount}
-                </div>
-              </div>
-
-              <p className="whitespace-pre-line text-sm leading-7 text-slate-600 sm:text-base">{description}</p>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  { label: 'Access', value: 'Instant' },
-                  { label: 'Support', value: 'Guided' },
-                  { label: 'Delivery', value: 'Email link' },
-                ].map((item) => (
-                  <div key={item.label} className="rounded-2xl bg-slate-50 px-4 py-3">
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-slate-500">{item.label}</p>
-                    <p className="mt-1 text-sm font-black text-slate-950">{item.value}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </section>
-
-          <section className="order-1 rounded-[2rem] border border-slate-200/80 bg-white/90 p-4 shadow-[0_24px_70px_rgba(15,23,42,0.12)] backdrop-blur-xl sm:p-6 lg:order-2 lg:p-8">
-            <form onSubmit={handlePayment} className="space-y-4 sm:space-y-5">
-              {error && (
-                <div className="rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
-                  {error}
+    <div className="flex min-h-screen items-start justify-center bg-[#eceeef] px-4 pb-10 pt-12 sm:pt-16">
+      <div className="w-full max-w-[356px]">
+        <div className="min-h-[700px] overflow-hidden rounded-[2px] border border-[#cfd4db] bg-[#f7f8fa] shadow-sm">
+          <div className="flex items-center gap-3 bg-[#022a59] px-3 py-4 text-white">
+            <div className="h-8 w-8 overflow-hidden rounded-[2px] bg-[#f3c623]">
+              {posterUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img src={posterUrl} alt={title} className="h-full w-full object-cover" />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-xs font-bold text-slate-900">
+                  {title.slice(0, 1).toUpperCase()}
                 </div>
               )}
+            </div>
+            <div className="leading-tight">
+              <p className="text-[11px] text-white/85">Paying to</p>
+              <p className="line-clamp-1 text-[20px] font-medium">Rohit Kumar</p>
+            </div>
+          </div>
 
-              <div className="space-y-2">
-                <label htmlFor="name" className="sr-only">Name</label>
-                <Input
+          <form onSubmit={handlePayment} className="flex min-h-[620px] flex-col px-3 pb-4 pt-3 text-[#6f7785]">
+            <div className="border-b border-[#d7dbe1] pb-2">
+              <p className="text-[12px]">Purpose of Payment</p>
+              <p className="mt-1 line-clamp-1 text-[20px] font-medium uppercase text-[#4c5564]">{title}</p>
+            </div>
+
+            <div className="border-b border-[#d7dbe1] py-2">
+              <p className="text-[12px]">Amount</p>
+              <p className="mt-1 text-[22px] font-semibold text-[#4c5564]">₹{amount}</p>
+            </div>
+
+            <div className="flex items-center border-b border-[#d7dbe1] py-2 text-[13px]">
+              <span className="font-medium text-[#4c5564]">Your Details</span>
+              <span className="mx-2 text-[#c0c4ca]">&gt;</span>
+              <span className="text-[#8f96a3]">Payment</span>
+            </div>
+
+            {error && (
+              <div className="mt-3 rounded border border-red-200 bg-red-50 px-3 py-2 text-[12px] text-red-700">
+                {error}
+              </div>
+            )}
+
+            <div className="mt-3 space-y-3 text-[13px]">
+              <div>
+                <label htmlFor="name" className="mb-1 block text-[#7b8290]">Name</label>
+                <input
                   id="name"
                   type="text"
-                  placeholder="Your name"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   disabled={loading}
-                  className="h-14 rounded-2xl border-slate-200 bg-slate-50 px-4 text-base shadow-sm transition placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-orange-500/30"
+                  className="h-9 w-full rounded-[2px] border border-[#c8ced6] bg-white px-2 text-[13px] text-[#404957] outline-none focus:border-[#9aa3af]"
                 />
               </div>
 
-              <div className="space-y-2">
-                <label htmlFor="email" className="sr-only">Email</label>
-                <Input
+              <div>
+                <label htmlFor="email" className="mb-1 block text-[#7b8290]">Email</label>
+                <input
                   id="email"
                   type="email"
-                  placeholder="Your email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   disabled={loading}
-                  className="h-14 rounded-2xl border-slate-200 bg-slate-50 px-4 text-base shadow-sm transition placeholder:text-slate-400 focus-visible:ring-2 focus-visible:ring-orange-500/30"
+                  className="h-9 w-full rounded-[2px] border border-[#c8ced6] bg-white px-2 text-[13px] text-[#404957] outline-none focus:border-[#9aa3af]"
                 />
               </div>
 
-              <Button
-                type="submit"
-                disabled={loading}
-                className="h-14 w-full rounded-2xl bg-gradient-to-r from-orange-500 to-amber-500 text-base font-black text-white shadow-[0_16px_40px_rgba(249,115,22,0.28)] transition hover:-translate-y-0.5 hover:from-orange-600 hover:to-amber-600 disabled:translate-y-0 disabled:opacity-70"
-              >
-                {loading && <Loader2 className="mr-2 h-5 w-5 animate-spin" />}
-                {loading ? 'Processing' : `Pay ₹${amount}`}
-              </Button>
-
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 p-4 sm:p-5">
-                <div className="flex items-center gap-4">
-                  <div className="h-16 w-16 overflow-hidden rounded-2xl bg-slate-200 shadow-sm">
-                    {posterUrl ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={posterUrl} alt={title} className="h-full w-full object-cover" />
-                    ) : null}
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <p className="truncate text-sm font-bold text-slate-950">{title}</p>
-                    <p className="mt-1 text-lg font-black text-slate-950">₹{amount}</p>
-                  </div>
-                </div>
+              <div>
+                <label htmlFor="phone" className="mb-1 block text-[#7b8290]">Phone Number</label>
+                <input
+                  id="phone"
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  disabled={loading}
+                  className="h-9 w-full rounded-[2px] border border-[#c8ced6] bg-white px-2 text-[13px] text-[#404957] outline-none focus:border-[#9aa3af]"
+                />
               </div>
+            </div>
 
-              <div className="flex items-center justify-center gap-2 text-xs font-medium text-slate-500">
-                <CheckCircle className="h-4 w-4 text-emerald-500" />
-                Secure payment
-              </div>
-            </form>
-          </section>
+            <p className="mt-auto border-t border-[#e1e4e8] pt-3 text-center text-[24px] font-medium text-[#485161]">
+              You Pay ₹{amount}
+            </p>
+
+            <div className="mt-2 text-center text-[11px] text-[#8d95a3] underline underline-offset-2">
+              <Link href="/terms" className="hover:text-[#5e6572]">
+                Terms of service
+              </Link>
+              <span className="mx-1">and</span>
+              <Link href="/refund-policy" className="hover:text-[#5e6572]">
+                Refund policy
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="mt-3 flex h-10 w-full items-center justify-center rounded-[3px] bg-[#34c06a] text-[22px] font-medium text-white transition hover:bg-[#2fb562] disabled:opacity-80"
+            >
+              {loading ? <Loader2 className="h-5 w-5 animate-spin" /> : 'Next'}
+            </button>
+          </form>
         </div>
-      </main>
+
+        <p className="mt-4 text-center text-[13px] text-[#9ea5b2]">
+          Powered by <span className="font-semibold text-[#8f96a3]">Elneb EdTech</span>
+        </p>
+      </div>
     </div>
   )
 }

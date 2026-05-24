@@ -21,6 +21,7 @@ create table if not exists courses (
 create table if not exists orders (
   id uuid primary key default gen_random_uuid(),
   email text not null,
+  phone text,
   course_id uuid references courses(id) on delete set null,
   amount numeric(10,2) not null,
   currency text default 'INR',

@@ -13,6 +13,7 @@ export async function POST(request: NextRequest) {
       razorpay_payment_id,
       razorpay_signature,
       email,
+      phone,
     } = await request.json()
 
     if (!razorpay_order_id || !razorpay_payment_id || !razorpay_signature) {
@@ -46,6 +47,7 @@ export async function POST(request: NextRequest) {
       {
         razorpay_payment_id,
         razorpay_signature,
+        phone: phone?.trim() || null,
         status: 'completed',
         updated_at: new Date().toISOString(),
       },

@@ -34,7 +34,7 @@ export function FloatingCta({ price, enrollHref }: FloatingCtaProps) {
             </div>
             <div>
               <p className="text-sm font-semibold text-slate-900 sm:text-sm">Limited seats available</p>
-              <p className="text-[11px] text-slate-500 sm:text-xs">Enroll now and pay the exact admin-set course price.</p>
+              <p className="text-[11px] text-slate-500 sm:text-xs">Apply now and pay the exact admin-set course price.</p>
             </div>
           </div>
 

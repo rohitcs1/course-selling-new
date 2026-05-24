@@ -64,10 +64,10 @@ export function Hero({ checkoutHref }: HeroProps) {
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link
                 href={checkoutHref}
-                className="inline-flex items-center justify-center px-12 py-6 bg-orange-500 text-white font-extrabold rounded-xl hover:bg-orange-600 transition-transform duration-300 transform-gpu animate-wiggle-x shadow-2xl shadow-orange-500/30 text-xl md:text-2xl"
-                aria-label="Enroll now"
+                className="inline-flex items-center justify-center px-12 py-6 bg-yellow-400 text-black font-extrabold rounded-xl hover:bg-yellow-300 transition-transform duration-300 transform-gpu animate-wiggle-x shadow-2xl shadow-yellow-500/35 text-xl md:text-2xl"
+                aria-label="Apply now"
               >
-                Enroll Now
+                Apply Now
               </Link>
             </div>
 
