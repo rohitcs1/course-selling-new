@@ -54,6 +54,7 @@ language sql stable as $$
     count(*) as orders_count
   from orders
   where created_at >= $1 and created_at <= $2
+    and status = 'completed'
   group by day
   order by day;
 $$;

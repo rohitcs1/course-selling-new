@@ -13,7 +13,7 @@ export async function GET(req: Request, { params }: { params: Promise<{ day: str
     const start = `${day}T00:00:00Z`
     const end = `${day}T23:59:59Z`
 
-    const qs = `orders?select=id,email,amount,status,created_at,course_id&created_at=gte.${encodeURIComponent(
+    const qs = `orders?select=id,email,amount,status,created_at,course_id&status=eq.completed&created_at=gte.${encodeURIComponent(
       start,
     )}&created_at=lte.${encodeURIComponent(end)}&order=created_at.desc`
 
