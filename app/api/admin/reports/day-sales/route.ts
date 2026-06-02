@@ -7,6 +7,23 @@ type OrderRow = {
   created_at: string
 }
 
+async function fetchAllOrders(queryBase: string) {
+  const pageSize = 1000
+  let offset = 0
+  const rows: OrderRow[] = []
+
+  while (true) {
+    const qs = `${queryBase}&limit=${pageSize}&offset=${offset}`
+    const { status, data } = await supabaseRequest('GET', qs)
+    if (!Array.isArray(data)) return { status, data: rows }
+
+    rows.push(...(data as OrderRow[]))
+    if (data.length < pageSize) return { status, data: rows }
+
+    offset += pageSize
+  }
+}
+
 export async function GET(req: Request) {
   try {
     const token = getBearerToken(req as any)
@@ -14,14 +31,14 @@ export async function GET(req: Request) {
     if (!verified) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
     const url = new URL(req.url)
-    const from = url.searchParams.get('from') || new Date(Date.now() - 7 * 24 * 3600 * 1000).toISOString()
+    const from = url.searchParams.get('from') || new Date(0).toISOString()
     const to = url.searchParams.get('to') || new Date().toISOString()
 
-    const qs = `orders?select=amount,created_at&status=eq.completed&created_at=gte.${encodeURIComponent(
+    const queryBase = `orders?select=amount,created_at&status=eq.completed&created_at=gte.${encodeURIComponent(
       from,
     )}&created_at=lte.${encodeURIComponent(to)}&order=created_at.asc`
 
-    const { status, data } = await supabaseRequest('GET', qs)
+    const { status, data } = await fetchAllOrders(queryBase)
     if (!Array.isArray(data)) return NextResponse.json(data, { status })
 
     const byDay = new Map<string, { day: string; total_amount: number; orders_count: number }>()
