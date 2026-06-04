@@ -1,10 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server'
+import Razorpay from 'razorpay'
 import { verifyRazorpaySignature } from '@/lib/razorpay'
 import { supabaseRequest } from '@/lib/supabaseAdmin'
 import { sendCourseLink } from '@/lib/email'
 import { getCourseById } from '@/lib/courses'
 
 const COURSE_LINK = process.env.NEXT_PUBLIC_COURSE_LINK || 'https://drive.google.com/drive/folders/your-folder-id'
+
+const razorpay = new Razorpay({
+  key_id: process.env.RAZORPAY_KEY_ID!,
+  key_secret: process.env.RAZORPAY_KEY_SECRET!,
+})
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,7 +29,6 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Verify signature
     const isValid = verifyRazorpaySignature(
       razorpay_order_id,
       razorpay_payment_id,
@@ -38,10 +43,10 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    let orderRow: any = null
     let orderUpdateWarning: string | null = null
 
-    // Update order in database using the service role key so RLS does not block server writes
-    const { status, data } = await supabaseRequest(
+    const updateResult = await supabaseRequest(
       'PATCH',
       `orders?razorpay_order_id=eq.${encodeURIComponent(razorpay_order_id)}`,
       {
@@ -54,16 +59,49 @@ export async function POST(request: NextRequest) {
       'return=representation',
     )
 
-    if (status >= 400) {
-      console.error('[v0] Database error:', data)
+    if (updateResult.status >= 400) {
+      console.error('[v0] Database error:', updateResult.data)
       orderUpdateWarning = 'Order verification succeeded, but order persistence failed.'
+    } else {
+      orderRow = Array.isArray(updateResult.data) ? updateResult.data[0] : null
     }
 
-    const orderRow = Array.isArray(data) ? data[0] : null
+    if (!orderRow) {
+      try {
+        const razorpayOrder = await razorpay.orders.fetch(razorpay_order_id)
+        const backfillResult = await supabaseRequest(
+          'POST',
+          'orders',
+          {
+            email: email || razorpayOrder?.notes?.email || null,
+            phone: phone?.trim() || razorpayOrder?.notes?.phone || null,
+            amount: Number(razorpayOrder?.amount ?? 0) / 100,
+            currency: razorpayOrder?.currency || 'INR',
+            course_id: razorpayOrder?.notes?.courseId || null,
+            razorpay_order_id,
+            razorpay_payment_id,
+            razorpay_signature,
+            status: 'completed',
+            updated_at: new Date().toISOString(),
+          },
+          'return=representation',
+        )
+
+        if (backfillResult.status >= 400) {
+          console.error('[v0] Failed to backfill missing order:', backfillResult.data)
+          orderUpdateWarning = 'Payment was verified, but the order row could not be created.'
+        } else {
+          orderRow = Array.isArray(backfillResult.data) ? backfillResult.data[0] : null
+        }
+      } catch (fallbackError) {
+        console.error('[v0] Failed to backfill missing order:', fallbackError)
+        orderUpdateWarning = 'Payment was verified, but the order row could not be created.'
+      }
+    }
+
     const course = orderRow?.course_id ? await getCourseById(orderRow.course_id) : null
     const courseLink = course?.drive_link || COURSE_LINK
 
-    // Send course link via email without blocking the redirect path.
     if (email) {
       void sendCourseLink(email, courseLink).catch((sendError) => {
         console.error('[v0] Email sending failed:', sendError)
@@ -73,7 +111,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       message: 'Payment verified successfully',
-      data,
+      data: orderRow,
       courseLink,
       ...(orderUpdateWarning ? { warning: orderUpdateWarning } : {}),
     })

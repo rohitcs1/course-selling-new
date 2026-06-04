@@ -15,6 +15,7 @@ const DEFAULT_COURSE = {
 }
 
 const RAZORPAY_KEY_ID = process.env.NEXT_PUBLIC_RAZORPAY_KEY_ID
+let razorpayScriptPromise: Promise<boolean> | null = null
 
 declare global {
   interface Window {
@@ -81,14 +82,43 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
   const posterUrl = getRenderableImageUrl(course?.poster_url) || DEFAULT_COURSE.poster_url
 
   const loadRazorpayScript = (): Promise<boolean> => {
-    return new Promise((resolve) => {
-      const script = document.createElement('script')
-      script.src = 'https://checkout.razorpay.com/v1/checkout.js'
-      script.async = true
-      script.onload = () => resolve(true)
-      script.onerror = () => resolve(false)
-      document.body.appendChild(script)
-    })
+    if (typeof window !== 'undefined' && window.Razorpay) {
+      return Promise.resolve(true)
+    }
+
+    if (!razorpayScriptPromise) {
+      razorpayScriptPromise = new Promise((resolve) => {
+        const existingScript = document.querySelector('script[data-razorpay-checkout="true"]')
+
+        if (existingScript) {
+          const poll = window.setInterval(() => {
+            if (window.Razorpay) {
+              window.clearInterval(poll)
+              resolve(true)
+            }
+          }, 50)
+
+          window.setTimeout(() => {
+            window.clearInterval(poll)
+            resolve(Boolean(window.Razorpay))
+          }, 5000)
+
+          return
+        }
+
+        const script = document.createElement('script')
+        script.src = 'https://checkout.razorpay.com/v1/checkout.js'
+        script.async = true
+        script.dataset.razorpayCheckout = 'true'
+        script.onload = () => resolve(true)
+        script.onerror = () => resolve(false)
+        document.body.appendChild(script)
+      }).finally(() => {
+        razorpayScriptPromise = null
+      })
+    }
+
+    return razorpayScriptPromise
   }
 
   const handlePayment = async (e: React.FormEvent) => {
@@ -97,33 +127,58 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
     setLoading(true)
 
     try {
-      if (!formData.name.trim()) {
+      const name = formData.name.trim()
+      const email = formData.email.trim()
+      const phone = formData.phone.trim()
+
+      if (!name) {
         setError('Please enter your name')
         setLoading(false)
         return
       }
 
-      if (!formData.email.trim()) {
+      if (!email) {
         setError('Please enter your email')
         setLoading(false)
         return
       }
 
-      if (!formData.email.includes('@')) {
+      if (!email.includes('@')) {
         setError('Please enter a valid email address')
         setLoading(false)
         return
+      }
+
+      if (!phone) {
+        setError('Please enter your phone number')
+        setLoading(false)
+        return
+      }
+
+      if (!/^[0-9+\-\s()]{8,15}$/.test(phone)) {
+        setError('Please enter a valid phone number')
+        setLoading(false)
+        return
+      }
+
+      if (!RAZORPAY_KEY_ID) {
+        throw new Error('Payment gateway is not configured')
+      }
+
+      if (!course?.id) {
+        throw new Error('Course information is missing')
       }
 
       const orderRes = await fetch('/api/orders', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          email: formData.email,
-          phone: formData.phone,
+          name,
+          email,
+          phone,
           amount,
           currency: 'INR',
-          courseId: course?.id || null,
+          courseId: course.id,
         }),
       })
 
@@ -145,9 +200,13 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
         order_id: orderData.orderID,
         name: title,
         prefill: {
-          name: formData.name,
-          email: formData.email,
-          contact: formData.phone,
+          name,
+          email,
+          contact: phone,
+        },
+        retry: {
+          enabled: true,
+          max_count: 2,
         },
         theme: {
           color: '#f97316',
@@ -161,8 +220,8 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
                 razorpay_order_id: response.razorpay_order_id,
                 razorpay_payment_id: response.razorpay_payment_id,
                 razorpay_signature: response.razorpay_signature,
-                email: formData.email,
-                phone: formData.phone,
+                email,
+                phone,
               }),
             })
 
@@ -174,7 +233,7 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
             const driveLink = verifyJson?.courseLink
 
             router.push(
-              `/success?email=${encodeURIComponent(formData.email)}${
+              `/success?email=${encodeURIComponent(email)}${
                 driveLink ? `&driveLink=${encodeURIComponent(driveLink)}` : ''
               }`
             )
@@ -244,36 +303,49 @@ export default function CheckoutClient({ courseId }: CheckoutClientProps) {
 
             <div className="mt-3 space-y-3 text-[13px]">
               <div>
-                <label htmlFor="name" className="mb-1 block text-[#7b8290]">Name</label>
+                <label htmlFor="name" className="mb-1 block text-[#7b8290]">
+                  Name <span className="text-red-500">*</span>
+                </label>
                 <input
                   id="name"
                   type="text"
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                  required
+                  autoComplete="name"
                   disabled={loading}
                   className="h-9 w-full rounded-[2px] border border-[#c8ced6] bg-white px-2 text-[13px] text-[#404957] outline-none focus:border-[#9aa3af]"
                 />
               </div>
 
               <div>
-                <label htmlFor="email" className="mb-1 block text-[#7b8290]">Email</label>
+                <label htmlFor="email" className="mb-1 block text-[#7b8290]">
+                  Email <span className="text-red-500">*</span>
+                </label>
                 <input
                   id="email"
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  required
+                  autoComplete="email"
                   disabled={loading}
                   className="h-9 w-full rounded-[2px] border border-[#c8ced6] bg-white px-2 text-[13px] text-[#404957] outline-none focus:border-[#9aa3af]"
                 />
               </div>
 
               <div>
-                <label htmlFor="phone" className="mb-1 block text-[#7b8290]">Phone Number</label>
+                <label htmlFor="phone" className="mb-1 block text-[#7b8290]">
+                  Phone Number <span className="text-red-500">*</span>
+                </label>
                 <input
                   id="phone"
                   type="tel"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  required
+                  inputMode="tel"
+                  autoComplete="tel"
                   disabled={loading}
                   className="h-9 w-full rounded-[2px] border border-[#c8ced6] bg-white px-2 text-[13px] text-[#404957] outline-none focus:border-[#9aa3af]"
                 />

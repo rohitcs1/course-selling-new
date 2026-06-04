@@ -9,11 +9,11 @@ const razorpay = new Razorpay({
 
 export async function POST(request: NextRequest) {
   try {
-    const { email, phone, amount, currency = 'INR', courseId } = await request.json()
+    const { name, email, phone, amount, currency = 'INR', courseId } = await request.json()
 
-    if (!email || !amount) {
+    if (!email || !phone || !amount || !courseId) {
       return NextResponse.json(
-        { error: 'Email and amount are required' },
+        { error: 'Email, phone, amount, and course are required' },
         { status: 400 }
       )
     }
@@ -24,8 +24,10 @@ export async function POST(request: NextRequest) {
       currency,
       receipt: `receipt_${Date.now()}`,
       notes: {
+        name: name || '',
         email,
         phone,
+        courseId: courseId || '',
       },
     })
 
