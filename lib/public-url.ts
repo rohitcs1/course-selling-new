@@ -11,6 +11,16 @@ export function normalizePublicUrl(rawUrl: string | null | undefined) {
       return ''
     }
 
+    if (resolvedUrl.hostname === 'drive.google.com') {
+      const fileIdFromPath = resolvedUrl.pathname.match(/\/file\/d\/([^/]+)/)?.[1]
+      const fileIdFromQuery = resolvedUrl.searchParams.get('id')
+      const fileId = fileIdFromPath || fileIdFromQuery
+
+      if (fileId) {
+        return `https://drive.google.com/uc?export=view&id=${encodeURIComponent(fileId)}`
+      }
+    }
+
     const hostname = resolvedUrl.hostname.toLowerCase()
     if (
       hostname === 'localhost' ||
