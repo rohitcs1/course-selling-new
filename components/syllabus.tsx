@@ -103,7 +103,7 @@ export function Syllabus({ checkoutHref }: SyllabusProps) {
             href={checkoutHref}
             className="inline-flex items-center justify-center w-full md:w-1/2 mx-auto px-8 py-5 bg-yellow-400 text-black font-extrabold rounded-xl hover:bg-yellow-300 transition-transform duration-200 animate-wiggle-x text-lg"
           >
-            Apply Now
+            Enroll Now
           </a>
         </div>
       </div>

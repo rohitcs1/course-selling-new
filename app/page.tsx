@@ -1,5 +1,5 @@
-import Link from 'next/link'
 import { Hero } from '@/components/hero'
+import { CourseGallery } from '@/components/course-gallery'
 import { Syllabus } from '@/components/syllabus'
 import { Testimonials } from '@/components/testimonials'
 import { FAQ } from '@/components/faq'
@@ -13,7 +13,7 @@ import { getPublicCourses } from '@/lib/courses'
 export default async function Home() {
   const courses = await getPublicCourses()
   const featuredCourse = courses[0]
-  const checkoutHref = featuredCourse ? `/checkout?courseId=${featuredCourse.id}` : '/checkout'
+  const checkoutHref = '/courses'
   const supportEmail = 'rasoiroom31@gmail.com'
 
   return (
@@ -26,6 +26,7 @@ export default async function Home() {
         <div className="pt-16">
           <Hero checkoutHref={checkoutHref} />
         </div>
+        <CourseGallery courses={courses} />
         <Syllabus checkoutHref={checkoutHref} />
         <Testimonials checkoutHref={checkoutHref} />
         <Pricing checkoutHref={checkoutHref} currentPrice={featuredCourse?.price ?? 299} />

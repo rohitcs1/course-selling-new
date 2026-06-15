@@ -106,7 +106,7 @@ export function Pricing({ checkoutHref, currentPrice = 299, originalPrice = 1499
             href={checkoutHref}
             className="mt-10 inline-flex min-h-[66px] w-full items-center justify-center rounded-2xl bg-yellow-400 px-6 py-4 text-xl font-black uppercase tracking-wide text-black shadow-[0_10px_30px_rgba(234,179,8,0.35)] transition hover:-translate-y-0.5 sm:w-[460px]"
           >
-            Apply Now
+            Enroll Now
           </Link>
           <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-700">Hurry up!</p>
         </div>

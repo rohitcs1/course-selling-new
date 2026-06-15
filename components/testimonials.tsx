@@ -43,7 +43,7 @@ export function Testimonials({ checkoutHref }: TestimonialsProps) {
             href={checkoutHref}
             className="inline-flex items-center justify-center w-full md:w-1/2 mx-auto px-8 py-4 bg-yellow-400 text-black font-extrabold rounded-lg hover:bg-yellow-300 transition-transform duration-200 text-lg"
           >
-            Apply Now
+            Enroll Now
           </a>
         </div>
       </div>

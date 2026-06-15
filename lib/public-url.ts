@@ -1,6 +1,10 @@
 export function normalizePublicUrl(rawUrl: string | null | undefined) {
   if (!rawUrl) return ''
 
+  if (rawUrl.startsWith('/') && !rawUrl.startsWith('//')) {
+    return rawUrl
+  }
+
   try {
     const resolvedUrl = new URL(rawUrl)
     if (resolvedUrl.protocol !== 'http:' && resolvedUrl.protocol !== 'https:') {

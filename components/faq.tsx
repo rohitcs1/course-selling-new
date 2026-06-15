@@ -6,31 +6,31 @@ import { ChevronDown } from 'lucide-react'
 const faqs = [
   {
     question: 'Is it a recorded course or a live course?',
-    answer: 'It’s a recorded course which will be given to you in a video format. On signup, you will create account and password using which you can watch all the modules in one go.',
+    answer: 't is a recorded course that will be provided in video format. After signup, you will get an account and password through which you can access and watch all the modules easily.',
   },
   {
     question: 'Can you tell me what is the duration of the course?',
-    answer: 'This course duration is 25 hours+',
+    answer: 'The total duration of this course is 30+ hours.',
   },
   {
     question: 'Is this course in Hindi or English language?',
-    answer: 'This course is in Hindi language and a little bit of English.',
+    answer: 'This course is available in Hindi with a small amount of English.',
   },
   {
     question: 'How long will You get support for your Questions?',
-    answer: 'We give lifetime support to our students so you can ask as many questions you want and we have a dedicated Facebook group also for the student, where you can ask as many questions as you like.',
+    answer: 'We provide lifetime support to our students, so you can ask unlimited questions anytime. We also have a dedicated Facebook group for students where you can freely ask your doubts and queries.',
   },
   {
     question: 'Which software I will learn in this Course?',
-    answer: 'You’ll learn Adobe Premiere Pro which is the latest version of Adobe Premiere Pro editing software, to run Premiere Pro you need a Computer or Laptop.',
+    answer: 'You will learn Adobe Premiere Pro, the latest version of the editing software. To use Premiere Pro, you will need a computer or laptop.',
   },
   {
     question: 'Can You download the videos?',
-    answer: 'The Videos are shared in the member’s area, you cannot download them however you can watch it anytime you want – any number of times you want. All you need is a Mobile/Laptop and an Internet connection.',
+    answer: 'The videos are available in the member’s area and cannot be downloaded. However, you can watch them anytime and as many times as you want using a mobile, laptop, and internet connection.',
   },
   {
     question: 'Is there a guarantee?',
-    answer: 'Absolutely! Inside The Edit has a 7-Day Satisfaction Guarantee. If you are not completely SATISFIED and ENLIGHTENED by the Inside The Edit Course, then contact us within 7 Days for refund, no questions asked!',
+    answer: 'Yes! Inside The Edit comes with a 7-Day Satisfaction Guarantee. If you are not fully satisfied with the course, you can contact us within 7 days for a refund without any questions asked!',
   },
 ]
 

@@ -49,7 +49,7 @@ export function FloatingCta({ price, enrollHref }: FloatingCtaProps) {
                     : 'cursor-not-allowed bg-slate-300 text-slate-500',
             ].join(' ')}
           >
-            Apply Now
+            Enroll Now
             <ArrowRight className="h-4 w-4" />
           </Link>
         </div>

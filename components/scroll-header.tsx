@@ -28,7 +28,7 @@ export function ScrollHeader({ enrollHref }: ScrollHeaderProps) {
           href={enrollHref}
           className="rounded-full bg-yellow-400 px-5 py-2 font-semibold text-black shadow-sm transition hover:bg-yellow-300"
         >
-          Apply Now
+          Enroll Now
         </Link>
       </div>
     </header>

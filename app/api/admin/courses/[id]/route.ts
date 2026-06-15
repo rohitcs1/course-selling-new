@@ -24,15 +24,6 @@ export async function PUT(req: Request, { params }: { params: Promise<{ id: stri
     if (payload?.price !== undefined && Number.isNaN(Number(payload.price))) {
       return NextResponse.json({ error: 'Invalid price' }, { status: 400 })
     }
-    // If admin is un-hiding this course, ensure all other courses are hidden
-    if (payload?.hidden === false) {
-      try {
-        await supabaseRequest('PATCH', `courses?id=neq.${id}`, { hidden: true })
-      } catch (err) {
-        console.error('[v0] Failed to hide other courses:', err)
-        // continue — we'll still attempt to update the requested course
-      }
-    }
     const { status, data } = await supabaseRequest('PATCH', `courses?id=eq.${id}`, payload, 'return=representation')
     return NextResponse.json(data, { status })
   } catch (err) {

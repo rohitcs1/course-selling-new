@@ -38,7 +38,7 @@ export function Hero({ checkoutHref }: HeroProps) {
             <video
               ref={videoRef}
               className="absolute inset-0 h-full w-full object-cover"
-              src="https://kabirmehra.in/wp-content/uploads/2024/06/RAMPAGE-trailer-for-international-course_1-1.mp4"
+              src="https://youtu.be/tC2U46vsu3w?si=R4WD3Gyvk8uNEpTb"
               autoPlay
               controls
               loop
@@ -53,21 +53,21 @@ export function Hero({ checkoutHref }: HeroProps) {
           <div className="space-y-6">
             <div className="space-y-3">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight">
-                MASTER THE WORLD'S MOST IN-DEMAND SKILL : VIDEO EDITING
+                DISCOVER THE WORLD'S MOST IN-DEMAND SKILL : VIDEO EDITING
               </h1>
             </div>
 
             <p className="text-lg text-slate-300 leading-relaxed">
-              Inside The Edit is for anyone who wants to produce cinematic & emotional videos without wasting months.
+              Inside The Edit helps anyone create cinematic & emotional videos without wasting time.
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link
                 href={checkoutHref}
                 className="inline-flex items-center justify-center px-12 py-6 bg-yellow-400 text-black font-extrabold rounded-xl hover:bg-yellow-300 transition-transform duration-300 transform-gpu animate-wiggle-x shadow-2xl shadow-yellow-500/35 text-xl md:text-2xl"
-                aria-label="Apply now"
+                aria-label="Browse all courses"
               >
-                Apply Now
+                Enroll Now
               </Link>
             </div>
 
