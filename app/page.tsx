@@ -1,5 +1,4 @@
 import { Hero } from '@/components/hero'
-import { CourseGallery } from '@/components/course-gallery'
 import { Syllabus } from '@/components/syllabus'
 import { Testimonials } from '@/components/testimonials'
 import { FAQ } from '@/components/faq'
@@ -26,7 +25,6 @@ export default async function Home() {
         <div className="pt-16">
           <Hero checkoutHref={checkoutHref} />
         </div>
-        <CourseGallery courses={courses} />
         <Syllabus checkoutHref={checkoutHref} />
         <Testimonials checkoutHref={checkoutHref} />
         <Pricing checkoutHref={checkoutHref} currentPrice={featuredCourse?.price ?? 299} />
