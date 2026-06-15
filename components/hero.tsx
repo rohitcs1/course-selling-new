@@ -1,6 +1,5 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
 import Link from 'next/link'
 
 type HeroProps = {
@@ -8,26 +7,6 @@ type HeroProps = {
 }
 
 export function Hero({ checkoutHref }: HeroProps) {
-  const videoRef = useRef<HTMLVideoElement | null>(null)
-
-  useEffect(() => {
-    const video = videoRef.current
-
-    if (!video) {
-      return
-    }
-
-    const startPlayback = () => {
-      void video.play().catch(() => {})
-    }
-
-    startPlayback()
-    video.addEventListener('loadedmetadata', startPlayback)
-
-    return () => {
-      video.removeEventListener('loadedmetadata', startPlayback)
-    }
-  }, [])
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-20 md:py-32 lg:py-40">
@@ -35,16 +14,14 @@ export function Hero({ checkoutHref }: HeroProps) {
         <div className="grid gap-12 md:grid-cols-2 md:gap-8 items-center">
           {/* Left side - Video placeholder */}
           <div className="relative aspect-video rounded-2xl overflow-hidden bg-slate-800 border border-slate-700 shadow-2xl">
-            <video
-              ref={videoRef}
-              className="absolute inset-0 h-full w-full object-cover"
-              src="https://youtu.be/tC2U46vsu3w?si=R4WD3Gyvk8uNEpTb"
-              autoPlay
-              controls
-              loop
-              muted
-              playsInline
-              preload="metadata"
+            <iframe
+              className="absolute inset-0 h-full w-full"
+              src="https://www.youtube.com/embed/tC2U46vsu3w?autoplay=1&mute=1&modestbranding=1&si=BV9yLZkC69Q51lJm"
+              title="Video Editing Course"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerPolicy="strict-origin-when-cross-origin"
+              allowFullScreen
             />
             <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-purple-500/20 pointer-events-none" />
           </div>

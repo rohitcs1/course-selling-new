@@ -1,7 +1,8 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, Clock } from 'lucide-react'
 import { useScrollUi } from '@/components/scroll-ui-provider'
 
 type FloatingCtaProps = {
@@ -11,6 +12,18 @@ type FloatingCtaProps = {
 
 export function FloatingCta({ price, enrollHref }: FloatingCtaProps) {
   const { headerHidden } = useScrollUi()
+  const INITIAL_SECONDS = 25 * 60
+  const [secondsLeft, setSecondsLeft] = useState<number>(INITIAL_SECONDS)
+  const minutesLeft = Math.floor(secondsLeft / 60)
+  const remainingSeconds = secondsLeft % 60
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSecondsLeft((s) => Math.max(0, s - 1))
+    }, 1000)
+
+    return () => clearInterval(timer)
+  }, [])
 
   if (!price || price <= 0) return null
 
@@ -34,7 +47,10 @@ export function FloatingCta({ price, enrollHref }: FloatingCtaProps) {
             </div>
             <div>
               <p className="text-sm font-semibold text-slate-900 sm:text-sm">Limited seats available</p>
-              <p className="text-[11px] text-slate-500 sm:text-xs">Apply now and pay the exact admin-set course price.</p>
+              <div className="flex items-center gap-1.5">
+                <Clock className="h-3 w-3 text-orange-500" />
+                <p className="text-[11px] text-slate-500 sm:text-xs">Offer will expire in {String(minutesLeft).padStart(2, '0')}:{String(remainingSeconds).padStart(2, '0')}</p>
+              </div>
             </div>
           </div>
 

@@ -16,6 +16,7 @@ type CourseGalleryProps = {
   mode?: 'home' | 'browse'
   title?: string
   subtitle?: string
+  showHeader?: boolean
 }
 
 function getPosterUrl(url: string | null | undefined) {
@@ -27,6 +28,7 @@ export function CourseGallery({
   mode = 'home',
   title = 'All Courses',
   subtitle = 'Choose the course that fits your goal. Each card below is controlled from the admin panel.',
+  showHeader = true,
 }: CourseGalleryProps) {
   if (!courses.length) {
     return (
@@ -44,18 +46,20 @@ export function CourseGallery({
   return (
     <section className={mode === 'home' ? 'bg-white py-16 md:py-20' : 'bg-slate-50 py-16 md:py-20'}>
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto max-w-3xl text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-500">Courses</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">{title}</h2>
-          <p className="mt-4 text-base leading-7 text-slate-600 md:text-lg">{subtitle}</p>
-        </div>
+        {showHeader && (
+          <div className="mx-auto max-w-3xl text-center">
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-orange-500">Courses</p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight text-slate-950 md:text-5xl">{title}</h2>
+            <p className="mt-4 text-base leading-7 text-slate-600 md:text-lg">{subtitle}</p>
+          </div>
+        )}
 
-        <div className="mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className={showHeader ? 'mt-10 grid gap-6 md:grid-cols-2 xl:grid-cols-3' : 'grid gap-6 md:grid-cols-2 xl:grid-cols-3'}>
           {courses.map((course) => {
             const posterUrl = getPosterUrl(course.poster_url)
             const isBrowseMode = mode === 'browse'
             const href = isBrowseMode ? `/checkout?courseId=${course.id}` : `/courses#course-${course.id}`
-            const ctaLabel = isBrowseMode ? 'Proceed to Checkout' : 'Enroll Now'
+            const ctaLabel = isBrowseMode ? 'Buy Now' : 'Enroll Now'
 
             return (
               <article

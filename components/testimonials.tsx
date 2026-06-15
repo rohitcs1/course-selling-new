@@ -17,7 +17,7 @@ const IMAGE_FILES = [
 
 export function Testimonials({ checkoutHref }: TestimonialsProps) {
   return (
-    <section className="py-16 md:py-24 bg-white">
+    <section className="py-10 md:py-14 bg-white">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
           <p className="text-orange-500 font-semibold mb-2">Real Student Screenshots</p>

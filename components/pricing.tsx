@@ -45,7 +45,7 @@ export function Pricing({ checkoutHref, currentPrice = 299, originalPrice = 1499
   }, [])
 
   return (
-    <section id="pricing" className="bg-white py-20 md:py-28">
+    <section id="pricing" className="bg-white py-14 md:py-18">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h2 className="text-3xl font-black uppercase tracking-tight text-slate-950 md:text-5xl">
@@ -80,7 +80,7 @@ export function Pricing({ checkoutHref, currentPrice = 299, originalPrice = 1499
           </div>
         </div>
 
-        <div className="mx-auto mt-12 max-w-xl text-center">
+        <div className="mx-auto mt-8 max-w-xl text-center">
           <p className="text-sm text-slate-500 line-through">Total Value : ₹34,493</p>
           <p className="mt-1 text-2xl text-slate-900 line-through decoration-2 decoration-slate-900/80">
             Only ₹{originalPrice.toLocaleString('en-IN')}

@@ -45,13 +45,19 @@ export default async function Home() {
               </div>
               <p className="text-sm">Master professional video editing with our comprehensive course.</p>
 
-              <div className="mt-6 bg-slate-800 rounded-lg p-4 border border-slate-700">
-                <p className="text-lg font-semibold text-white">Phone / WhatsApp</p>
-                <p className="text-orange-400 font-bold text-xl">+91 72509 39051</p>
-                <p className="mt-3 text-lg font-semibold text-white">Email</p>
-                <p className="text-white font-medium">
-                  <a href="mailto:rasoiroom31@gmail.com" className="hover:text-orange-400">rasoiroom31@gmail.com</a>
-                </p>
+              <div className="mt-6 space-y-4">
+                <div>
+                  <p className="text-sm text-slate-400 mb-1">Phone / WhatsApp</p>
+                  <a href="tel:+917250939051" className="text-white hover:text-orange-400 transition-colors font-semibold text-lg">
+                    +91 72509 39051
+                  </a>
+                </div>
+                <div>
+                  <p className="text-sm text-slate-400 mb-1">Email</p>
+                  <a href="mailto:rasoiroom31@gmail.com" className="text-white hover:text-orange-400 transition-colors font-semibold text-lg">
+                    rasoiroom31@gmail.com
+                  </a>
+                </div>
               </div>
             </div>
 
