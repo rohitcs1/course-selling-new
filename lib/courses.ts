@@ -11,9 +11,11 @@ export type CourseRow = {
 }
 
 export async function getPublicCourses() {
-  const { status, data } = await supabaseRequest('GET', 'courses?select=*')
+  // Request only non-hidden courses from Supabase to avoid client-side
+  // type/coercion issues and ensure production matches the intended dataset.
+  const { status, data } = await supabaseRequest('GET', `courses?select=*&hidden=eq.false&order=title.asc`)
   if (status >= 400) return [] as CourseRow[]
-  return (Array.isArray(data) ? data : []).filter((course: CourseRow) => !course.hidden)
+  return Array.isArray(data) ? (data as CourseRow[]) : []
 }
 
 export async function getCourseById(courseId: string) {

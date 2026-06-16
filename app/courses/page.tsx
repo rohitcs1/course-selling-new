@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { CourseGallery } from '@/components/course-gallery'
 import { getPublicCourses } from '@/lib/courses'
 
