@@ -5,10 +5,41 @@ import './globals.css'
 const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
+export const metadataBase = new URL('https://course.elneb.in')
+
 export const metadata: Metadata = {
   title: 'Elneb EdTech - Professional Video Editing Course',
-  description: 'Master video editing with our comprehensive online course. Learn professional techniques, industry tools, and create stunning edits.',
+  description: 'Master video editing with Elneb EdTech — professional online courses by Elneb Company (elneb.in).',
   generator: 'v0.app',
+  keywords: [
+    'Elneb EdTech',
+    'video editing course',
+    'online video editing',
+    'Elneb Company',
+    'video editing training',
+    'course.elneb.in'
+  ],
+  authors: [
+    { name: 'Elneb Company', url: 'https://elneb.in' }
+  ],
+  openGraph: {
+    title: 'Elneb EdTech - Professional Video Editing Course',
+    description: 'Master video editing with Elneb EdTech — professional online courses by Elneb Company (elneb.in).',
+    url: 'https://course.elneb.in',
+    siteName: 'Elneb EdTech',
+    images: [{ url: '/og-image.png', alt: 'Elneb EdTech' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Elneb EdTech - Professional Video Editing Course',
+    description: 'Master video editing with Elneb EdTech — professional online courses by Elneb Company (elneb.in).',
+    images: ['/og-image.png']
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
   icons: {
     icon: [
       {

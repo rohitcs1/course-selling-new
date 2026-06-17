@@ -3,11 +3,78 @@ export const dynamic = 'force-dynamic'
 import { CourseGallery } from '@/components/course-gallery'
 import { getPublicCourses } from '@/lib/courses'
 
+export async function generateMetadata() {
+  const courses = await getPublicCourses()
+  const courseTitles = courses.map((c) => c.title).filter(Boolean).slice(0, 10)
+  const keywords = Array.from(new Set([
+    'Elneb EdTech',
+    'video editing',
+    'online course',
+    'Elneb Company',
+    'video editing course',
+    ...courseTitles,
+  ]))
+
+  return {
+    title: 'All Courses — Elneb EdTech',
+    description:
+      'Discover all video editing courses from Elneb EdTech. Enroll in professional online courses by Elneb Company.',
+    keywords,
+    openGraph: {
+      title: 'All Courses — Elneb EdTech',
+      description:
+        'Discover all video editing courses from Elneb EdTech. Enroll in professional online courses by Elneb Company.',
+      url: 'https://course.elneb.in/courses',
+      siteName: 'Elneb EdTech',
+      images: [{ url: '/og-image.png', alt: 'Elneb EdTech - Courses' }],
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: 'All Courses — Elneb EdTech',
+      description:
+        'Discover all video editing courses from Elneb EdTech. Enroll in professional online courses by Elneb Company.',
+      images: ['/og-image.png'],
+    },
+    alternates: {
+      canonical: 'https://course.elneb.in/courses',
+    },
+  }
+}
+
 export default async function CoursesPage() {
   const courses = await getPublicCourses()
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'Organization',
+        'name': 'Elneb Company',
+        'url': 'https://elneb.in',
+        'logo': 'https://course.elneb.in/icon.svg',
+        'sameAs': ['https://elneb.in'],
+      },
+      {
+        '@type': 'SoftwareApplication',
+        'name': 'Elneb EdTech',
+        'url': 'https://course.elneb.in',
+        'applicationCategory': 'Education',
+        'offers': {
+          '@type': 'Offer',
+          'url': 'https://course.elneb.in/courses',
+        },
+      },
+    ],
+  }
+
   return (
     <main className="min-h-screen bg-slate-50">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+
       <section className="bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 py-10 md:py-14 text-white">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl">
