@@ -102,12 +102,33 @@ export function Pricing({ checkoutHref, currentPrice = 299, originalPrice = 1499
             </div>
           </div>
 
-          <Link
-            href={checkoutHref}
-            className="mt-10 inline-flex min-h-[66px] w-full items-center justify-center rounded-2xl bg-yellow-400 px-6 py-4 text-xl font-black uppercase tracking-wide text-black shadow-[0_10px_30px_rgba(234,179,8,0.35)] transition hover:-translate-y-0.5 sm:w-[460px]"
-          >
-            Enroll Now
-          </Link>
+          <div>
+            <style>{`
+              @keyframes bounce-text {
+                0%, 100% { transform: translateY(0); }
+                50% { transform: translateY(-8px); }
+              }
+              .bounce-letter {
+                display: inline-block;
+                animation: bounce-text 0.6s ease-in-out infinite;
+              }
+            `}</style>
+            <Link
+              href={checkoutHref}
+              className="group mt-10 inline-flex min-h-[66px] w-full items-center justify-center rounded-2xl bg-gradient-to-b from-yellow-300 via-yellow-400 to-yellow-500 px-6 py-4 text-xl font-black uppercase tracking-wide text-black shadow-[0_10px_40px_rgba(234,179,8,0.4)] transition hover:-translate-y-1 hover:shadow-[0_15px_50px_rgba(234,179,8,0.5)] sm:w-[460px] mx-auto block"
+            >
+              <span className="bounce-letter" style={{ animationDelay: '0s' }}>E</span>
+              <span className="bounce-letter" style={{ animationDelay: '0.1s' }}>n</span>
+              <span className="bounce-letter" style={{ animationDelay: '0.2s' }}>r</span>
+              <span className="bounce-letter" style={{ animationDelay: '0.3s' }}>o</span>
+              <span className="bounce-letter" style={{ animationDelay: '0.4s' }}>l</span>
+              <span className="bounce-letter" style={{ animationDelay: '0.5s' }}>l</span>
+              <span> </span>
+              <span className="bounce-letter" style={{ animationDelay: '0.6s' }}>N</span>
+              <span className="bounce-letter" style={{ animationDelay: '0.7s' }}>o</span>
+              <span className="bounce-letter" style={{ animationDelay: '0.8s' }}>w</span>
+            </Link>
+          </div>
           <p className="mt-2 text-[11px] font-semibold uppercase tracking-[0.25em] text-slate-700">Hurry up!</p>
         </div>
       </div>

@@ -1,9 +1,9 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Link from 'next/link'
-import { ArrowRight, Clock } from 'lucide-react'
+import { Clock } from 'lucide-react'
 import { useScrollUi } from '@/components/scroll-ui-provider'
+import { EnrollButton } from '@/components/enroll-button'
 
 type FloatingCtaProps = {
   price: number
@@ -54,20 +54,12 @@ export function FloatingCta({ price, enrollHref }: FloatingCtaProps) {
             </div>
           </div>
 
-          <Link
+          <EnrollButton
             href={enrollHref}
-            aria-disabled={!headerHidden}
-            tabIndex={headerHidden ? 0 : -1}
-            className={[
-              'inline-flex w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 font-semibold shadow-sm transition-all duration-300 sm:w-auto sm:min-w-[220px] sm:px-6 sm:py-3',
-                  headerHidden
-                    ? 'bg-gradient-to-b from-yellow-300 via-yellow-400 to-yellow-500 text-black shadow-[0_10px_30px_rgba(234,179,8,0.35)] hover:-translate-y-0.5 hover:from-yellow-200 hover:via-yellow-300 hover:to-yellow-400'
-                    : 'cursor-not-allowed bg-slate-300 text-slate-500',
-            ].join(' ')}
-          >
-            Enroll Now
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+            disabled={!headerHidden}
+            fullWidthMobile
+            className="sm:min-w-[220px] sm:px-6 sm:py-3"
+          />
         </div>
       </div>
     </div>

@@ -39,11 +39,32 @@ export function Testimonials({ checkoutHref }: TestimonialsProps) {
         </div>
 
         <div className="mt-8 text-center">
+          <style>{`
+            @keyframes bounce-text {
+              0%, 100% { transform: translateY(0); }
+              50% { transform: translateY(-8px); }
+            }
+            .bounce-letter {
+              display: inline-block;
+              animation: bounce-text 0.6s ease-in-out infinite;
+              margin: 0 0.32rem;
+              letter-spacing: 0.25em;
+            }
+          `}</style>
           <a
             href={checkoutHref}
-            className="inline-flex items-center justify-center w-full md:w-1/2 mx-auto px-8 py-4 bg-yellow-400 text-black font-extrabold rounded-lg hover:bg-yellow-300 transition-transform duration-200 text-lg"
+            className="group inline-flex items-center justify-center w-full md:w-1/2 mx-auto px-8 py-4 bg-gradient-to-b from-yellow-300 via-yellow-400 to-yellow-500 text-black font-extrabold rounded-lg hover:from-yellow-200 hover:via-yellow-300 hover:to-yellow-400 transition-all duration-300 text-lg shadow-lg hover:shadow-xl hover:-translate-y-1"
           >
-            Enroll Now
+            <span className="bounce-letter" style={{ animationDelay: '0s' }}>E</span>
+            <span className="bounce-letter" style={{ animationDelay: '0.1s' }}>n</span>
+            <span className="bounce-letter" style={{ animationDelay: '0.2s' }}>r</span>
+            <span className="bounce-letter" style={{ animationDelay: '0.3s' }}>o</span>
+            <span className="bounce-letter" style={{ animationDelay: '0.4s' }}>l</span>
+            <span className="bounce-letter" style={{ animationDelay: '0.5s' }}>l</span>
+            <span> </span>
+            <span className="bounce-letter" style={{ animationDelay: '0.6s' }}>N</span>
+            <span className="bounce-letter" style={{ animationDelay: '0.7s' }}>o</span>
+            <span className="bounce-letter" style={{ animationDelay: '0.8s' }}>w</span>
           </a>
         </div>
       </div>

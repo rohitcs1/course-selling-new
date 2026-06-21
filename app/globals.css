@@ -124,3 +124,56 @@
     @apply bg-background text-foreground;
   }
 }
+
+@keyframes cta-float {
+  0%,
+  100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-2px) scale(1.01);
+  }
+}
+
+@keyframes cta-shine {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+    opacity: 0;
+  }
+  20% {
+    opacity: 0.45;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateX(180%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+.cta-button {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  animation: cta-float 2.8s ease-in-out infinite;
+}
+
+.cta-button::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.38) 50%, transparent 100%);
+  transform: translateX(-140%) skewX(-18deg);
+  animation: cta-shine 3.2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.cta-button:hover {
+  animation-play-state: paused;
+}
+
+.cta-button > * {
+  position: relative;
+  z-index: 1;
+}
